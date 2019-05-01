@@ -1,5 +1,6 @@
 package View;
 
+import Controller.GameFrameController;
 import Model.Media;
 
 import java.awt.*;
@@ -27,6 +28,43 @@ public class BackgroundPanel extends JPanel
     private float alignmentX = 0.5f;
     private float alignmentY = 0.5f;
     private boolean isTransparentAdd = true;
+
+
+    /*
+     *  Add custom painting
+     */
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        //  Invoke the painter for the background
+        if (painter != null)
+        {
+            Dimension d = getSize();
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setPaint(painter);
+            g2.fill( new Rectangle(0, 0, d.width, d.height) );
+        }
+        //  Draw the image
+        if (image == null ) return;
+        switch (style)
+        {
+            case SCALED :
+                drawScaled(g);
+                break;
+
+            case TILED  :
+                drawTiled(g);
+                break;
+
+            case ACTUAL :
+                drawActual(g);
+                break;
+
+            default:
+                drawScaled(g);
+        }
+        //////////////////////////////
+    }
 
     /*
      *  Set image as the background with the SCALED style
@@ -161,12 +199,10 @@ public class BackgroundPanel extends JPanel
      *  change the renderer to be transparent. An easy way to do this it to
      *  set the background of the table to a Color using an alpha value of 0.
      */
-    private void makeComponentTransparent(JComponent component)
-    {
+    private void makeComponentTransparent(JComponent component) {
         component.setOpaque( false );
 
-        if (component instanceof JScrollPane)
-        {
+        if (component instanceof JScrollPane){
             JScrollPane scrollPane = (JScrollPane)component;
             JViewport viewport = scrollPane.getViewport();
             viewport.setOpaque( false );
@@ -177,48 +213,6 @@ public class BackgroundPanel extends JPanel
                 ((JComponent)c).setOpaque( false );
             }
         }
-    }
-
-    /*
-     *  Add custom painting
-     */
-    @Override
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-
-        //  Invoke the painter for the background
-
-        if (painter != null)
-        {
-            Dimension d = getSize();
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setPaint(painter);
-            g2.fill( new Rectangle(0, 0, d.width, d.height) );
-        }
-
-        //  Draw the image
-
-        if (image == null ) return;
-
-        switch (style)
-        {
-            case SCALED :
-                drawScaled(g);
-                break;
-
-            case TILED  :
-                drawTiled(g);
-                break;
-
-            case ACTUAL :
-                drawActual(g);
-                break;
-
-            default:
-                drawScaled(g);
-        }
-
-
     }
 
     /*
