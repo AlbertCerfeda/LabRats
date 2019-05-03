@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.GameFrameController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -24,12 +26,31 @@ public class Sprite extends ImageIcon {
         this.name=name;
         this.xPercent=xPercent;
         this.yPercent=yPercent;
+        Toolkit tk;
+        tk=Toolkit.getDefaultToolkit();
+        x=new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent;
+        y=new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*xPercent;
     }
     public void resetPosition(){
         x=Toolkit.getDefaultToolkit().getScreenSize().getWidth()*(xPercent/100);
         y=Toolkit.getDefaultToolkit().getScreenSize().getHeight()*(yPercent/100);
     }
-
+    public void setX(int x,JLabel label){
+        this.x=x;
+        label.setBounds(x,label.getY(),label.getWidth(),label.getHeight());
+    }
+    public void setY(int y,JLabel label){
+        this.y=y;
+        label.setBounds(label.getX(),y,label.getWidth(),label.getHeight());
+    }
+    public void setXY(int x, int y, JLabel label){
+        this.x=x;
+        this.y=y;
+        label.setBounds(x,y,label.getWidth(),label.getHeight());
+    }
+    public void setFrame(Image frame,JLabel label){
+        label.setIcon(new ImageIcon(frame));
+    }
     public Image[] getFrames() {
         return frames;
     }

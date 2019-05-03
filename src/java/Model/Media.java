@@ -16,6 +16,12 @@ public class Media{
     private Image[] fridge;
     private Image[] van;
     private Image[] background;
+    private Image[] postit;
+
+    private Image[] cardboard;
+    private Image[] muTank;
+    private Image[] hclTank;
+    private Image[] csTank;
 
     private  final double imageResizeRatio;
     private Toolkit tk;
@@ -39,6 +45,11 @@ public class Media{
         adjustTableSize();
         adjustTrayAndSize();
         adjustVanSize();
+        adjustPostitSize();
+        adjustCardboardSize();
+        adjustMuTankSize();
+        adjustHclTankSize();
+        adjustCsTankSize();
     }
     public void adjustMUSize(){
         double ratio=imageResizeRatio;
@@ -104,18 +115,63 @@ public class Media{
             image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
         }
     }
+    public void adjustPostitSize(){
+        double ratio=imageResizeRatio;
+        Image[] image;
+        image= postit;
+        for(int n=0;n<image.length;n++){
+            image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
+        }
+    }
+    public void adjustCardboardSize(){
+        double ratio=imageResizeRatio;
+        Image[] image;
+        image= cardboard;
+        for(int n=0;n<image.length;n++){
+            image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
+        }
+    }
+    public void adjustMuTankSize(){
+        double ratio=imageResizeRatio;
+        Image[] image;
+        image= muTank;
+        for(int n=0;n<image.length;n++){
+            image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
+        }
+    }
+    public void adjustHclTankSize(){
+        double ratio=imageResizeRatio;
+        Image[] image;
+        image= hclTank;
+        for(int n=0;n<image.length;n++){
+            image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
+        }
+    }
+    public void adjustCsTankSize(){
+        double ratio=imageResizeRatio;
+        Image[] image;
+        image= csTank;
+        for(int n=0;n<image.length;n++){
+            image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
+        }
+    }
 
     public void importAllImages(){
-        refreshMUImages();
-        refreshHCLImages();
-        refreshCSImages();
-        refreshFRIDGEImages();
-        refreshVANImages();
-        refreshTRAYImages();
-        refreshTABLEImage();
-        refreshBACKGROUNDImage();
+        importMUImages();
+        importHCLImages();
+        importCSImages();
+        importFRIDGEImages();
+        importVANImages();
+        importTRAYImages();
+        importTABLEImage();
+        importPOSTITImage();
+        importCARDBOARDImage();
+        importMUTANKImage();
+        importCSTANKImage();
+        importHCLTANKImage();
+        importBACKGROUNDImage();
     }
-    public void refreshMUImages(){
+    public void importMUImages(){
         mu=new Image[3];
 
 
@@ -130,13 +186,14 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshHCLImages(){
-        hcl=new Image[2];
+    public void importHCLImages(){
+        hcl=new Image[3];
 
         hcl[0]=tk.getImage(getClass().getResource("/hcl/hcl_0.png"));
         hcl[1]=tk.getImage(getClass().getResource("/hcl/hcl_1.png"));
+        hcl[2]=tk.getImage(getClass().getResource("/hcl/hcl_0.png"));
 
-        if(hcl[0]==null||hcl[1]==null){
+        if(hcl[0]==null||hcl[1]==null||hcl[2]==null){
             JFrame a =new JFrame("");
             a.setVisible(false);
 
@@ -144,7 +201,7 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshCSImages(){
+    public void importCSImages(){
         cs=new Image[3];
 
         cs[0]=tk.getImage(getClass().getResource("/cs/cs_0.png"));
@@ -158,7 +215,7 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshFRIDGEImages(){
+    public void importFRIDGEImages(){
         fridge=new Image[5];
 
         fridge[0]=tk.getImage(getClass().getResource("/fridge/fridge_0.png"));
@@ -174,7 +231,7 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshVANImages(){
+    public void importVANImages(){
         van=new Image[5];
 
         van[0]=tk.getImage(getClass().getResource("/van/van_0.png"));
@@ -190,7 +247,7 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshTRAYImages(){
+    public void importTRAYImages(){
         tray=new Image[5];
 
         tray[0]=tk.getImage(getClass().getResource("/tray/tray_0.png"));
@@ -206,7 +263,7 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshTABLEImage(){
+    public void importTABLEImage(){
         table=new Image[1];
 
         table[0]=tk.getImage(getClass().getResource("/table_0.png"));
@@ -219,7 +276,7 @@ public class Media{
             System.exit(0);
         }
     }
-    public void refreshBACKGROUNDImage(){
+    public void importBACKGROUNDImage(){
         background=new Image[1];
 
         background[0]=tk.getImage(getClass().getResource("/background_0.png"));
@@ -228,6 +285,66 @@ public class Media{
             a.setVisible(false);
 
             JOptionPane.showMessageDialog(a,"Error loading 'background_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+    public void importPOSTITImage(){
+        postit=new Image[1];
+
+        postit[0]=tk.getImage(getClass().getResource("/postit_0.png"));
+        if(postit==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'postit_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+    public void importCARDBOARDImage(){
+        cardboard=new Image[1];
+
+        cardboard[0]=tk.getImage(getClass().getResource("/cardboard_0.png"));
+        if(cardboard==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'cardboard_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+    public void importMUTANKImage(){
+        muTank=new Image[1];
+
+        muTank[0]=tk.getImage(getClass().getResource("/mu/muTank_0.png"));
+        if(muTank==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'muTank_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+    public void importHCLTANKImage(){
+        hclTank=new Image[1];
+
+        hclTank[0]=tk.getImage(getClass().getResource("/hcl/hclTank_0.png"));
+        if(hclTank==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'hclTank_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+    public void importCSTANKImage(){
+        csTank=new Image[1];
+
+        csTank[0]=tk.getImage(getClass().getResource("/cs/csTank_0.png"));
+        if(csTank==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'csTank_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
@@ -255,6 +372,21 @@ public class Media{
     }
     public Image[] getBackground() {
         return background;
+    }
+    public Image[] getPostit() {
+        return postit;
+    }
+    public Image[] getCardboard() {
+        return cardboard;
+    }
+    public Image[] getMuTank() {
+        return muTank;
+    }
+    public Image[] getHclTank() {
+        return hclTank;
+    }
+    public Image[] getCsTank() {
+        return csTank;
     }
 }
 

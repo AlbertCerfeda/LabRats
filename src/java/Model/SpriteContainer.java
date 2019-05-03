@@ -5,8 +5,8 @@ import java.awt.*;
 public class SpriteContainer extends Sprite {
     /* Extends SuperSprites attributes (frames, position ecc.) and adds the capacity attributes
     */
-    protected double capacity=100;  //It's maximum capacity
-    protected double stored=0;  //The quantity stored in itù
+    protected double capacity;  //It's maximum capacity
+    protected double stored;  //The quantity stored in itù
 
     public SpriteContainer(Image[] frames, String name, double xPercent, double yPercent, double capacity, double stored) {
         super(frames, name, xPercent, yPercent);
