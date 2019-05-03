@@ -12,6 +12,7 @@ public class Sprite extends ImageIcon {
 
     protected Image[] frames;  //All the frames of the animation
     protected String name;
+    protected JLabel informationLabel;
     ///Positioning for calculating if the player clicks on the sprite
     protected double x;
     protected double y;
