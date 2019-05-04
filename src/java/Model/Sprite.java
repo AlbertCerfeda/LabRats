@@ -12,7 +12,8 @@ public class Sprite extends ImageIcon {
 
     protected Image[] frames;  //All the frames of the animation
     protected String name;
-    protected JLabel informationLabel;
+    protected JLabel label;
+
     ///Positioning for calculating if the player clicks on the sprite
     protected double x;
     protected double y;
@@ -21,30 +22,37 @@ public class Sprite extends ImageIcon {
     protected double xPercent;
     protected double yPercent;
 
-    public Sprite(Image[] frames, String name,double xPercent,double yPercent) {
+    public Sprite(Image[] frames, String name,double xPercent,double yPercent,JLabel label) {
         super(frames[0]);
         this.frames=frames;
         this.name=name;
         this.xPercent=xPercent;
         this.yPercent=yPercent;
+        this.label=label;
         Toolkit tk;
         tk=Toolkit.getDefaultToolkit();
         x=new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent;
         y=new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*xPercent;
+
+        label.setBounds(
+                (int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent),
+                (int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*yPercent),
+                /*width*/this.getIconWidth(),
+                /*height*/this.getIconHeight());
     }
     public void resetPosition(){
         x=Toolkit.getDefaultToolkit().getScreenSize().getWidth()*(xPercent/100);
         y=Toolkit.getDefaultToolkit().getScreenSize().getHeight()*(yPercent/100);
     }
-    public void setX(int x,JLabel label){
+    public void setX(int x){
         this.x=x;
         label.setBounds(x,label.getY(),label.getWidth(),label.getHeight());
     }
-    public void setY(int y,JLabel label){
+    public void setY(int y){
         this.y=y;
         label.setBounds(label.getX(),y,label.getWidth(),label.getHeight());
     }
-    public void setXY(int x, int y, JLabel label){
+    public void setXY(int x, int y){
         this.x=x;
         this.y=y;
         label.setBounds(x,y,label.getWidth(),label.getHeight());

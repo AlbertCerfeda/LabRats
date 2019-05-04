@@ -32,26 +32,27 @@ public class DragNDropListener implements MouseListener {
             destinationCooker.replace("Cooker","");
             //////////////////////////////////////////////
             //Spaghetti code to make it work
-            if(sourceTank.contains("mu")){
+            if(sourceTank.contains("mu")&&destinationCooker.contains("mu")){
+                System.out.println();
                 sourceTank="mu";
                 destinationCooker="mu";
             }
-            else if(sourceTank.contains("cs")){
+            else if(sourceTank.contains("cs")&&destinationCooker.contains("cs")){
                 sourceTank="cs";
                 destinationCooker="cs";
             }
-            else if(sourceTank.contains("hcl")){
+            else if(sourceTank.contains("hcl")&&destinationCooker.contains("hcl")){
                 sourceTank="hcl";
                 destinationCooker="hcl";
             }
-            //sourceTank="cs";
-            //destinationCooker="cs";
+            //////////////////
             if(sourceTank.compareTo(destinationCooker)==0&&CookerManagerThread.isCorrectIngredient(sourceTank)){//If the ingredient and the cooker are for the same element and it's the correct one, the transfer can be done
                 transferPossible=true;
-                CookerManagerThread.addIngredient(sourceTank);
+
             }
-            else{//If not a mistake has been made and the police gets alerted and the countdown starts
+            else{//If not a mistake has been made, the police gets alerted and the countdown starts
                 transferPossible=false;
+                GameFrameController.makeLabExplode();
                 //TODO: Signal that the countdown for police has to start
                 System.out.println("Wrong ingredient in wrong tank. Explosion!! The poo-poo is coming");
             }
@@ -60,12 +61,50 @@ public class DragNDropListener implements MouseListener {
                 (sourceContainerSprite.getName().contains("fridge")&&destinationLabelSprite.getName().contains("van"))){//If you dragged the fridge over the van
             transferPossible=true;
         }
-        if(transferPossible){
-            //TODO: Input quantity to transfer with option pane (can't transfer more than you have stored)
-            int quantity=100; //Sample value
-            sourceContainerSprite.removeStored(quantity);
-            sourceContainerSprite.addStored(destinationContainerSprite.addStored(quantity)); //The difference in excess when storing gets added back to the source
-            System.out.println("transfer complete!!");
+        if(transferPossible){//Makes the transfer
+            int max=(int)sourceContainerSprite.getStored();
+            System.out.println("|||"+(int)sourceContainerSprite.getStored()+"|||");
+            int defValue=0;
+            if(sourceLabelSprite.getName().equals("tray")||sourceLabelSprite.getName().equals("fridge")){
+                defValue=-1;
+            }
+
+            /////////////////////
+            //Creates the spinner in the OptionPane to ask what quanity to transfer
+            SpinnerNumberModel sModel = new SpinnerNumberModel(defValue, -1, max, 1);
+            JSpinner spinner = new JSpinner(sModel);
+            int option = JOptionPane.showOptionDialog(null, spinner, "How much?  ( -1 -> everything)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            ////////////////////////////////////////////
+
+            if (option == JOptionPane.CANCEL_OPTION||option==JOptionPane.CLOSED_OPTION|| (int)sModel.getValue()==0){//if user click Cancel or closes the window
+                System.out.println("CANCELLED");
+            } else if (option == JOptionPane.OK_OPTION){//If user gives ok
+                System.out.println("OK!! -----"+(int)sModel.getValue());
+
+                if(sourceContainerSprite.getName().contains("Tank")){
+                    String ingredient="";
+                    if(sourceContainerSprite.getName().contains("mu")){
+                        ingredient="mu";
+                    }
+                    else if(sourceContainerSprite.getName().contains("cs")){
+                        ingredient="cs";
+                    }
+                    else if(sourceContainerSprite.getName().contains("hcl")){
+                        ingredient="hcl";
+                    }
+                    CookerManagerThread.addIngredient(ingredient);
+                }
+
+                int quantity=(int)sModel.getValue();
+                if(quantity==-1){
+                    quantity=(int)sourceContainerSprite.getStored();
+                }
+                sourceContainerSprite.removeStored(quantity);
+                sourceContainerSprite.addStored(destinationContainerSprite.addStored(quantity)); //The difference in excess when storing gets added back to the source
+                System.out.println("transfer complete!!");
+            }
+
+
         }
     }
 
