@@ -23,6 +23,8 @@ public class Media{
     private Image[] hclTank;
     private Image[] csTank;
 
+    private Image[] instructions;
+
     private  final double imageResizeRatio;
     private Toolkit tk;
 
@@ -169,6 +171,7 @@ public class Media{
         importMUTANKImage();
         importCSTANKImage();
         importHCLTANKImage();
+        importINSTRUCTIONSImage();
         importBACKGROUNDImage();
     }
     public void importMUImages(){
@@ -348,6 +351,19 @@ public class Media{
             System.exit(0);
         }
     }
+    public void importINSTRUCTIONSImage(){
+        instructions=new Image[1];
+
+        instructions[0]=tk.getImage(getClass().getResource("/instructions.png"));
+        if(instructions==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'instructions.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+
 
     public Image[] getTable() {
         return table;
@@ -387,6 +403,9 @@ public class Media{
     }
     public Image[] getCsTank() {
         return csTank;
+    }
+    public Image[] getInstructions() {
+        return instructions;
     }
 }
 

@@ -16,6 +16,7 @@ public class GameFrameController {
     public static ArrayList<JLabel> animatedContainers;
     public static ArrayList<JLabel> staticSprites;
 
+    private DragNDropListener dragndroplistener;
     public GameFrameController(GameFrame gfr){
         media = new Media();
         gf=gfr;
@@ -25,7 +26,11 @@ public class GameFrameController {
         staticSprites=new ArrayList<JLabel>();
         initializeSprites();
 
-        //gfr.repaint();
+        dragndroplistener=new DragNDropListener();
+        animatedElements.forEach((g)-> g.addMouseListener(dragndroplistener));
+        animatedContainers.forEach((g)-> g.addMouseListener(dragndroplistener));
+        staticSprites.forEach((g)-> g.addMouseListener(dragndroplistener));
+
     }
     private void initializeSprites(){
         int nContainer=0;
@@ -105,7 +110,7 @@ public class GameFrameController {
         ////////////////////////////////////////////////////
         //MU//
         animatedElements.add(new JLabel(""));
-        animatedElements.get(nElement).setIcon(new SpriteContainer(media.getMu(),"mu",0.06,0.2,100,0));
+        animatedElements.get(nElement).setIcon(new SpriteContainer(media.getMu(),"muCooker",0.06,0.2,100,0));
         animatedElements.get(nElement).setBounds(
                 (int)(new ImageIcon(media.getBackground()[0]).getIconWidth()*((Sprite)animatedElements.get(nElement).getIcon()).getxPercent()),
                 (int)(new ImageIcon(media.getBackground()[0]).getIconHeight()*((Sprite)animatedElements.get(nElement).getIcon()).getyPercent()),
@@ -116,7 +121,7 @@ public class GameFrameController {
         ////////////////////////////////////////////////////
         //HCL//
         animatedElements.add(new JLabel(""));
-        animatedElements.get(nElement).setIcon(new SpriteContainer(media.getHcl(),"hcl",0.3,0.2,100,0));
+        animatedElements.get(nElement).setIcon(new SpriteContainer(media.getHcl(),"hclCooker",0.3,0.2,100,0));
         animatedElements.get(nElement).setBounds(
                 (int)(new ImageIcon(media.getBackground()[0]).getIconWidth()*((Sprite)animatedElements.get(nElement).getIcon()).getxPercent()),
                 (int)(new ImageIcon(media.getBackground()[0]).getIconHeight()*((Sprite)animatedElements.get(nElement).getIcon()).getyPercent()),
@@ -127,7 +132,7 @@ public class GameFrameController {
         ////////////////////////////////////////////////////
         //CS//
         animatedElements.add(new JLabel(""));
-        animatedElements.get(nElement).setIcon(new SpriteContainer(media.getCs(),"cs",0.16,0.32,100,0));
+        animatedElements.get(nElement).setIcon(new SpriteContainer(media.getCs(),"csCooker",0.16,0.32,100,0));
         animatedElements.get(nElement).setBounds(
                 (int)(new ImageIcon(media.getBackground()[0]).getIconWidth()*((Sprite)animatedElements.get(nElement).getIcon()).getxPercent()),
                 (int)(new ImageIcon(media.getBackground()[0]).getIconHeight()*((Sprite)animatedElements.get(nElement).getIcon()).getyPercent()),

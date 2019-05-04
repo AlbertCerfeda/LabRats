@@ -40,6 +40,7 @@ public class GameFrame extends JFrame implements Runnable {
         revalidate();
         repaint();
         setVisible(true);
+
         run();
     }
 
@@ -53,31 +54,9 @@ public class GameFrame extends JFrame implements Runnable {
 
     @Override
     public void run(){
-        /*for(;;){
-            Sprite sprite;
-            JLabel label;
-            for(int n=0;n<GameFrameController.animatedElements.size();n++){
-                label=GameFrameController.animatedElements.get(n);
-                sprite=(Sprite)label.getIcon();
-
-                label.setBounds((int)sprite.getX(),(int)sprite.getY(),label.getWidth(),label.getHeight());
-            }
-
-            for(int n=0;n<GameFrameController.staticSprites.size();n++){
-                label=GameFrameController.staticSprites.get(n);
-                sprite=(Sprite)label.getIcon();
-
-                label.setBounds((int)sprite.getX(),(int)sprite.getY(),label.getWidth(),label.getHeight());
-            }
-            for(int n=0;n<GameFrameController.animatedContainers.size();n++){
-                label=GameFrameController.animatedContainers.get(n);
-                sprite=(Sprite)label.getIcon();
-
-                label.setBounds((int)sprite.getX(),(int)sprite.getY(),label.getWidth(),label.getHeight());
-            }
-
+        for(;;){
             repaint();
-        }*/
+        }
     }
 }
 
