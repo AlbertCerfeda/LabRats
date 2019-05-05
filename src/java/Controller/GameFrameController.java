@@ -15,7 +15,6 @@ public class GameFrameController {
     public static ArrayList<JLabel> animatedCookers;
 
     public static ArrayList<JLabel> animatedContainers;
-    public static ArrayList<JLabel> spriteFloatingInfoLabel;
 
     public static ArrayList<JLabel> staticSprites;
 
@@ -33,7 +32,6 @@ public class GameFrameController {
 
         animatedCookers=new ArrayList<JLabel>();
         animatedContainers=new ArrayList<JLabel>();
-        spriteFloatingInfoLabel=new ArrayList<JLabel>();
         staticSprites=new ArrayList<JLabel>();
         initializeSprites();
 
@@ -68,7 +66,6 @@ public class GameFrameController {
         int nContainer=0;
         int nStatic=0;
         int nCooker=0;
-        int nFloatingInfoLabels=0;
 
         gf.getGamePanel().removeAll();
         staticSprites=new ArrayList<>();
@@ -84,107 +81,83 @@ public class GameFrameController {
         nStatic++;
         //////////////////////////////////////////////
         //MUTANK//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getMuTank(),"muTank",0.38,0.72,-1,100,animatedContainers.get(nContainer),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getMuTank(),"muTank",0.38,0.72,-1,0,animatedContainers.get(nContainer)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
-        nFloatingInfoLabels++;
         nContainer++;
 
         //////////////////////////////////////////////
         //HCLTANK//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getHclTank(),"hclTank",0.45,0.68,-1,100,animatedContainers.get(nContainer),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getHclTank(),"hclTank",0.45,0.68,-1,0,animatedContainers.get(nContainer)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedContainers.get(nContainer));
-        nFloatingInfoLabels++;
         nContainer++;
         //////////////////////////////////////////////
         //CSTANK//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getCsTank(),"csTank",0.51,0.73,-1,100,animatedContainers.get(nContainer),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getCsTank(),"csTank",0.51,0.73,-1,0,animatedContainers.get(nContainer)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
-        nFloatingInfoLabels++;
         nContainer++;
         //////////////////////////////////////////////
         //TRAY//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getTray(),"tray",0.4,0.52,100,0,animatedContainers.get(nContainer),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getTray(),"tray",0.4,0.52,100,0,animatedContainers.get(nContainer)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
-        nFloatingInfoLabels++;
         nContainer++;
         //////////////////////////////////////////////
         //VAN//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getVan(),"van",0.76,0.11,100,0,animatedContainers.get(nContainer),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getVan(),"van",0.76,0.11,100,0,animatedContainers.get(nContainer)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
-        nFloatingInfoLabels++;
         nContainer++;
         ////////////////////////////////////////////////////
         //MUCOOKER//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedCookers.add(new JLabel(""));
-        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getMu(),"muCooker",0.06,0.2,100,0,animatedCookers.get(nCooker),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getMu(),"muCooker",0.06,0.2,100,0,animatedCookers.get(nCooker)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedCookers.get(nCooker));
 
-        nFloatingInfoLabels++;
         nCooker++;
         ////////////////////////////////////////////////////
         //HCLCOOKER//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedCookers.add(new JLabel(""));
-        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getHcl(),"hclCooker",0.3,0.2,100,0,animatedCookers.get(nCooker),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getHcl(),"hclCooker",0.3,0.2,100,0,animatedCookers.get(nCooker)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedCookers.get(nCooker));
 
-        nFloatingInfoLabels++;
         nCooker++;
         ////////////////////////////////////////////////////
         //CSCOOKER//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedCookers.add(new JLabel(""));
-        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getCs(),"csCooker",0.16,0.32,100,50,animatedCookers.get(nCooker),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getCs(),"csCooker",0.16,0.32,100,0,animatedCookers.get(nCooker)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedCookers.get(nCooker));
 
-        nFloatingInfoLabels++;
         nCooker++;
         /////////////////////////////////////////////
         //TABLE//
@@ -201,16 +174,13 @@ public class GameFrameController {
         gf.getGamePanel().add(staticSprites.get(nStatic));
         nStatic++;
         //FRIDGE//
-        spriteFloatingInfoLabel.add(new JLabel("")); //The label that displays the infos about the capacity
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getFridge(),"fridge",0.46,0.11,100,0,animatedContainers.get(nContainer),spriteFloatingInfoLabel.get(nFloatingInfoLabels)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getFridge(),"fridge",0.46,0.11,100,0,animatedContainers.get(nContainer)));
 
-        gf.getGamePanel().add(spriteFloatingInfoLabel.get(nFloatingInfoLabels));
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
-        nFloatingInfoLabels++;
         nContainer++;
         ////////////////////////////////////////////////////
 

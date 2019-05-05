@@ -70,10 +70,16 @@ public class DragNDropListener implements MouseListener {
             }
 
             /////////////////////
-            //Creates the spinner in the OptionPane to ask what quanity to transfer
+            //Creates the spinner in the OptionPane to ask what quantity to transfer
             SpinnerNumberModel sModel = new SpinnerNumberModel(defValue, -1, max, 1);
             JSpinner spinner = new JSpinner(sModel);
-            int option = JOptionPane.showOptionDialog(null, spinner, "How much?  ( -1 -> everything)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            int option;
+            if(destinationContainerSprite.getStored()==destinationContainerSprite.getCapacity()||sourceContainerSprite.getStored()==0){
+                option=JOptionPane.CANCEL_OPTION;
+            }
+            else{
+                option = JOptionPane.showOptionDialog(null, spinner, "How much?  ( -1 -> everything)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            }
             ////////////////////////////////////////////
 
             if (option == JOptionPane.CANCEL_OPTION||option==JOptionPane.CLOSED_OPTION|| (int)sModel.getValue()==0){//if user click Cancel or closes the window
@@ -95,9 +101,9 @@ public class DragNDropListener implements MouseListener {
                     CookerManagerThread.addIngredient(ingredient);
                 }
 
-                int quantity=(int)sModel.getValue();
+                long quantity=(int)sModel.getValue();
                 if(quantity==-1){
-                    quantity=(int)sourceContainerSprite.getStored();
+                    quantity=sourceContainerSprite.getStored();
                 }
                 sourceContainerSprite.removeStored(quantity);
                 sourceContainerSprite.addStored(destinationContainerSprite.addStored(quantity)); //The difference in excess when storing gets added back to the source
@@ -134,16 +140,6 @@ public class DragNDropListener implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         Sprite pressedSprite=((Sprite)((JLabel)e.getSource()).getIcon());
-        /*System.out.print("\nPressed "+pressedSprite.getName());
-        if(pressedSprite.getName().contains("Tank")||pressedSprite.getName().equals("tray")||pressedSprite.getName().equals("fridge")){
-            sourceLabel=(JLabel)e.getSource();
-            sourceLabelSprite=pressedSprite;
-            System.out.print("\n"+sourceLabelSprite.getName()+" - ");
-        }else{
-            sourceLabel=null;
-            sourceLabelSprite=null;
-            System.out.print("\nINVALID - ");
-        }*/
         if(pressedSprite instanceof SpriteContainer){
             sourceLabel=(JLabel)e.getSource();
             sourceLabelSprite=pressedSprite;
@@ -156,30 +152,6 @@ public class DragNDropListener implements MouseListener {
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        /*Sprite releasedSprite=(Sprite)((JLabel)e.getSource()).getIcon();
-        System.out.print("\nReleased "+releasedSprite.getName());
-        if(sourceLabel!=null){
-            if(sourceLabelSprite.getName().contains("Tank")&&releasedSprite.getName().contains("Element")||
-                    sourceLabelSprite.getName().equals("tray")&&releasedSprite.getName().contains("fridge")||
-                    sourceLabelSprite.getName().equals("fridge")&&releasedSprite.getName().contains("van")){
-
-                destinationLabel=(JLabel)e.getSource();
-                destinationLabelSprite=(Sprite)(destinationLabel.getIcon());
-
-                System.out.print(destinationLabelSprite.getName());
-                attemptTransfer();
-            }
-            else{
-                sourceLabel=null;
-                sourceLabelSprite=null;
-                destinationLabel=null;
-                destinationLabelSprite=null;
-                System.out.print("INVALID");
-            }
-        }
-        else{
-            System.out.print("INVALID");
-        }*/
         if(sourceLabel!=null&&destinationLabel!=null){
             attemptTransfer();
             System.out.print("-- dest."+destinationLabelSprite.getName()+"\n");
@@ -196,7 +168,6 @@ public class DragNDropListener implements MouseListener {
             destinationLabelSprite=(Sprite)(destinationLabel.getIcon());
             System.out.print("("+destinationLabelSprite.getName()+")");
         }
-
     }
     @Override
     public void mouseExited(MouseEvent e) {

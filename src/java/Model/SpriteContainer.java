@@ -2,6 +2,7 @@ package Model;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class SpriteContainer extends Sprite {
@@ -9,54 +10,88 @@ public class SpriteContainer extends Sprite {
     */
     protected JLabel floatingInfoLabel;//The following label which indicates the storage informations
 
-    protected int capacity;  //It's maximum capacity
-    protected int stored;  //The quantity stored in itù
+    protected long capacity;  //It's maximum capacity
+    protected long stored;  //The quantity stored in itù
 
-    public SpriteContainer(Image[] frames, String name, double xPercent, double yPercent, int capacity, int stored,JLabel label,JLabel spriteFloatingInfoLabel) {
+    public SpriteContainer(Image[] frames, String name, double xPercent, double yPercent, int capacity, int stored,JLabel label) {
         super(frames, name, xPercent, yPercent,label);
         this.capacity=capacity;
         this.stored=stored;
-        this.floatingInfoLabel=spriteFloatingInfoLabel;
 
-        Border border;
-        border=BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(),"Cojone");
+        TitledBorder border;
+        border=BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+        border.setTitleJustification(TitledBorder.CENTER);
+
+        Font font=new Font(Font.SANS_SERIF,Font.BOLD,30);
+        border.setTitle("INFO");
+        border.setTitleFont(font);
+        border.setTitleJustification(TitledBorder.CENTER);
         label.setBorder(border);
 
-        spriteFloatingInfoLabel.setText("SAMPLE TEXT");
-        spriteFloatingInfoLabel.setBounds(100,100,100,100);
+        refreshBorder();
+
     }
 
-    public double getCapacity() {
+    public void refreshBorder(){
+        TitledBorder border=(TitledBorder)label.getBorder();
+        Font font=border.getTitleFont();
+        border.setTitle(getStored()+"/");
+        if(name.contains("Tank")){
+            font=new Font(font.getFamily(),font.getStyle(),15);
+            border.setTitleFont(font);
+            border.setTitle(border.getTitle()+"-");
+            border.setTitleColor(Color.green);
+        }
+        else{
+            border.setTitle(border.getTitle()+getCapacity());
+            if(stored/capacity<0.3){
+                border.setTitleColor(Color.green);
+            }
+            else if(stored/capacity<1){
+                border.setTitleColor(Color.yellow);
+            }
+            else{
+                border.setTitleColor(Color.red);
+            }
+        }
+        label.setBorder(border);
+    }
+    public long getCapacity() {
         return capacity;
     }
-    public void setCapacity(int capacity) {
+    public void setCapacity(long capacity) {
         this.capacity=capacity;
+        refreshBorder();
     }
-    public double getStored() {
+    public long getStored() {
         return stored;
     }
-    public void setStored(int stored) {
+    public void setStored(long stored) {
         this.stored=stored;
+        refreshBorder();
     }
-    public int addStored(int addedStorage){
+    public long addStored(long addedStorage){
         stored+=addedStorage;
         if (capacity==-1){
+            refreshBorder();
             return 0;
         }
         else{
-            int difference=stored-capacity;
+            long difference=stored-capacity;
             if(difference>0){
                 stored=capacity;
+                refreshBorder();
                 return difference;
             }
         }
-
+        refreshBorder();
         return 0;
     }
-    public void removeStored(int removedStorage){
+    public void removeStored(long removedStorage){
         stored-=removedStorage;
         if(stored<0){
             stored=0;
         }
+        refreshBorder();
     }
 }

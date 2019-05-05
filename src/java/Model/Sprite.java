@@ -15,8 +15,8 @@ public class Sprite extends ImageIcon {
     protected JLabel label;
 
     ///Positioning for calculating if the player clicks on the sprite
-    protected double x;
-    protected double y;
+    protected long x;
+    protected long y;
     //////////////////////////////////////
     ///Describes the initial positioning using Percentages respect to the Background
     protected double xPercent;
@@ -31,18 +31,18 @@ public class Sprite extends ImageIcon {
         this.label=label;
         Toolkit tk;
         tk=Toolkit.getDefaultToolkit();
-        x=new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent;
-        y=new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*xPercent;
+        x=(long)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent);
+        y=(long)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*xPercent);
 
         label.setBounds(
                 (int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent),
                 (int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*yPercent),
                 /*width*/this.getIconWidth(),
-                /*height*/this.getIconHeight());
+                /*height*/this.getIconHeight()+30);
     }
     public void resetPosition(){
-        x=Toolkit.getDefaultToolkit().getScreenSize().getWidth()*(xPercent/100);
-        y=Toolkit.getDefaultToolkit().getScreenSize().getHeight()*(yPercent/100);
+        x=(long)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()*(xPercent/100));
+        y=(long)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()*(yPercent/100));
     }
     public void setX(int x){
         this.x=x;
@@ -75,19 +75,19 @@ public class Sprite extends ImageIcon {
     public double getX() {
         return x;
     }
-    public void setX(double x) {
+    public void setX(long x) {
         this.x=x;
     }
     public double getY() {
         return y;
     }
-    public void setY(double y) {
+    public void setY(long y) {
         this.y=y;
     }
     public double getxPercent() {
         return xPercent;
     }
-    public void setxPercent(double xPercent) {
+    public void setxPercent(long xPercent) {
         this.xPercent=xPercent;
     }
 
@@ -95,7 +95,7 @@ public class Sprite extends ImageIcon {
         return yPercent;
     }
 
-    public void setyPercent(double yPercent) {
+    public void setyPercent(long yPercent) {
         this.yPercent=yPercent;
     }
 }
