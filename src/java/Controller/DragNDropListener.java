@@ -50,7 +50,7 @@ public class DragNDropListener implements MouseListener {
                 transferPossible=true;
 
             }
-            else{//If not a mistake has been made, the police gets alerted and the countdown starts
+            else{//If a mistake has been made, the police gets alerted and the countdown starts
                 transferPossible=false;
                 GameFrameController.makeLabExplode();
                 //TODO: Signal that the countdown for police has to start

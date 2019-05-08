@@ -15,19 +15,11 @@ public class GameFrame extends JFrame implements Runnable {
     private GameFrameController gfc;
 
     private BackgroundPanel gamePanel;
-
     public GameFrame(){
         super("The Garage");
         this.setResizable(false);
 
-
-
-
-
-
-
         gamePanel=new BackgroundPanel( Toolkit.getDefaultToolkit().getImage(getClass().getResource("/background_0.png")),BackgroundPanel.SCALED);
-
         this.gfc= new GameFrameController(this);
         int panelWidth=(int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int panelHeight=(int)(panelWidth*0.46);
