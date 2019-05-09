@@ -8,8 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class DragNDropListener implements MouseListener {
+public class DragNDropListener implements MouseListener{
 
     private JLabel sourceLabel;
     private Sprite sourceLabelSprite;
@@ -113,6 +114,14 @@ public class DragNDropListener implements MouseListener {
 
         }
     }
+    private MouseMotionHandler mousemotionhandler;
+
+    public JLabel getSourceLabel() {return sourceLabel; }
+    public Sprite getSourceLabelSprite() {return sourceLabelSprite; }
+
+    public DragNDropListener() {
+        mousemotionhandler=new MouseMotionHandler(this);
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -152,13 +161,18 @@ public class DragNDropListener implements MouseListener {
     }
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (sourceLabel!=null){
+            sourceLabelSprite.resetPosition();
+        }
         if(sourceLabel!=null&&destinationLabel!=null){
+
             attemptTransfer();
             System.out.print("-- dest."+destinationLabelSprite.getName()+"\n");
         }
         else{
             System.out.print(" - dest.INVALID\n");
         }
+
     }
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -173,5 +187,43 @@ public class DragNDropListener implements MouseListener {
     public void mouseExited(MouseEvent e) {
         destinationLabel=null;
         destinationLabelSprite=null;
+    }
+
+    public JLabel getDestinationLabel() {
+        return destinationLabel;
+    }
+    public Sprite getDestinationLabelSprite() {
+        return destinationLabelSprite;
+    }
+    public MouseMotionHandler getMousemotionhandler() {
+        return mousemotionhandler;
+    }
+}
+class MouseMotionHandler implements MouseMotionListener,Runnable{
+    DragNDropListener dragndroplistener;
+
+    public MouseMotionHandler(DragNDropListener dragndroplistener) {
+        this.dragndroplistener=dragndroplistener;
+        Thread thread=new Thread(this);
+        thread.setName("MouseMotionListener");
+        thread.start();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (dragndroplistener.getSourceLabelSprite()!=null&&(dragndroplistener.getSourceLabelSprite().getName().contains("Tank")||dragndroplistener.getSourceLabelSprite().getName().equals("tray"))){
+            Point mousePos=GameFrameController.gf.getGamePanel().getMousePosition();
+            dragndroplistener.getSourceLabelSprite().setXY(mousePos.x+1,mousePos.y+1);
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void run() {
+
     }
 }

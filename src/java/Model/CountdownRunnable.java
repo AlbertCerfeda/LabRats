@@ -29,7 +29,8 @@ public class CountdownRunnable implements Runnable{
         this.clockFormat=clockFormat;
         this.prefixMessage=prefixMessage;
 
-        thread=new Thread(this);
+        Thread thread=new Thread(this);
+        thread.setName(identifier);
         thread.start();
     }
     public void makeItStop(){

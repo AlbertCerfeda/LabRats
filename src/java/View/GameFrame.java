@@ -34,6 +34,7 @@ public class GameFrame extends JFrame implements Runnable {
         setVisible(true);
 
         new Thread(this).start();
+
     }
 
     public BackgroundPanel getGamePanel() {

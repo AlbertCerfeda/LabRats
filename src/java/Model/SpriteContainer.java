@@ -1,5 +1,7 @@
 package Model;
 
+import Controller.GameFrameController;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -37,12 +39,14 @@ public class SpriteContainer extends Sprite {
         Font font=border.getTitleFont();
         border.setTitle(getStored()+"/");
         if(name.contains("Tank")){
-            font=new Font(font.getFamily(),font.getStyle(),15);
+            font=new Font(font.getFamily(),font.getStyle(), (int)GameFrameController.media.getImageResizeRatio()*2);
             border.setTitleFont(font);
             border.setTitle(border.getTitle()+"-");
             border.setTitleColor(Color.green);
         }
         else{
+            font=new Font(font.getFamily(),font.getStyle(), (int)GameFrameController.media.getImageResizeRatio()*4);
+            border.setTitleFont(font);
             border.setTitle(border.getTitle()+getCapacity());
             if(stored/capacity<0.3){
                 border.setTitleColor(Color.green);
@@ -53,6 +57,9 @@ public class SpriteContainer extends Sprite {
             else{
                 border.setTitleColor(Color.red);
             }
+        }
+        if (name.contains("Cooker")){
+            border.setTitlePosition(TitledBorder.BELOW_BOTTOM);
         }
         label.setBorder(border);
     }

@@ -21,7 +21,9 @@ public class CookerManagerThread implements Runnable{
         this.tray=tray;
         this.fridge=fridge;
         this.van=van;
-        new Thread(this).start();
+        Thread thread=new Thread(this);
+        thread.setName("CookerManager");
+        thread.start();
     }
     public static boolean isCorrectIngredient(String element){
         if (element==nextIngredient){
@@ -59,7 +61,10 @@ public class CookerManagerThread implements Runnable{
                     System.out.print("");
                     if(cs.getStored()>0||hcl.getStored()>0||mu.getStored()>0){
                         if(checkProportions()){//If the proportions are right
-                            if(GameFrameController.isProportionsCountdownActive())GameFrameController.getProportionsCountdownRunnable() .makeItStop();
+                            if(GameFrameController.isProportionsCountdownActive()){
+                                GameFrameController.getProportionsCountdownRunnable() .makeItStop();
+                                GameFrameController.setProportionsCountdownRunnable(null);
+                            }
                             if(tray.getStored()+GameFrameController.getUnitsCookedForCookCycle()<=tray.getCapacity()){
                                 cooking=true;
                             }
@@ -81,19 +86,27 @@ public class CookerManagerThread implements Runnable{
                 /////////////////////////
                 if(cooking){
                     //If the countdowns were paused, it resumes them
-                    if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().resume();
-                    if(GameFrameController.isCookCycleCountdownActive()) GameFrameController.getCookCycleCountdownRunnable().resume();
+
 
                     //Calculates the time taken for everything to cook
                     GameFrameController.setMillisForTotalCookCycle(cs.getStored()*GameFrameController.getMillisForCookCycle());
                     System.out.println(cs.getStored()*GameFrameController.getMillisForCookCycle());
-                    if(!GameFrameController.isCookCycleCountdownActive()) GameFrameController.resetCountdownRunnable(GameFrameController.COOK_CYCLE);
-                    if(!GameFrameController.isTraysCountdownActive()) GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
-                    else{//If the tray countdown is active
+                    if(GameFrameController.isTraysCountdownActive()){
+                        GameFrameController.getTrayCountdownRunnable().resume();
+                        //If the tray countdown is active
                         //Updates the total cooking countdown on the tray
                         if( GameFrameController.getMillisForTotalCookCycle()-GameFrameController.getTrayCountdownRunnable().getRemainingMilliseconds()>1000){
                             GameFrameController.getTrayCountdownRunnable().extendTime(GameFrameController.getMillisForTotalCookCycle()-GameFrameController.getTrayCountdownRunnable().getRemainingMilliseconds());
                         }
+                    }
+                    else{
+                        GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
+                    }
+                    if(GameFrameController.isCookCycleCountdownActive()){
+                        GameFrameController.getCookCycleCountdownRunnable().resume();
+                    }
+                    else{
+                        GameFrameController.resetCountdownRunnable(GameFrameController.COOK_CYCLE);
                     }
                 }
                 else{
@@ -120,7 +133,6 @@ public class CookerManagerThread implements Runnable{
         cs.removeStored(1);
         hcl.removeStored(3);
         mu.removeStored(2);
-        System.out.println("COOK CYCLE DONE BIATCH");
         tray.addStored(GameFrameController.getUnitsCookedForCookCycle());
 
     }
