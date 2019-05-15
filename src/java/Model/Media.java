@@ -430,7 +430,7 @@ public class Media{
     public void importPOSTITImage(){
         postit=new Image[1];
 
-        postit[0]=tk.getImage(getClass().getResource("/postit_0.png"));
+        postit[0]=tk.getImage(getClass().getResource("/postit/postit_0.png"));
         if(postit==null){
             JFrame a =new JFrame("");
             a.setVisible(false);
@@ -440,7 +440,7 @@ public class Media{
         }
         postitHighlighted=new Image[1];
 
-        postitHighlighted[0]=tk.getImage(getClass().getResource("/postitHighlighted_0.png"));
+        postitHighlighted[0]=tk.getImage(getClass().getResource("/postit/postitHighlighted_0.png"));
         if(postitHighlighted==null){
             JFrame a =new JFrame("");
             a.setVisible(false);
@@ -599,6 +599,36 @@ public class Media{
     }
     public Image[] getFire() {
         return fire;
+    }
+    public Image[] getMuCookerHighlighted() {
+        return muCookerHighlighted;
+    }
+    public Image[] getHclCookerHighlighted() {
+        return hclCookerHighlighted;
+    }
+    public Image[] getCsCookerHighlighted() {
+        return csCookerHighlighted;
+    }
+    public Image[] getTrayHighlighted() {
+        return trayHighlighted;
+    }
+    public Image[] getFridgeHighlighted() {
+        return fridgeHighlighted;
+    }
+    public Image[] getVanHighlighted() {
+        return vanHighlighted;
+    }
+    public Image[] getPostitHighlighted() {
+        return postitHighlighted;
+    }
+    public Image[] getMuTankHighlighted() {
+        return muTankHighlighted;
+    }
+    public Image[] getHclTankHighlighted() {
+        return hclTankHighlighted;
+    }
+    public Image[] getCsTankHighlighted() {
+        return csTankHighlighted;
     }
 }
 

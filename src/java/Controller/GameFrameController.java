@@ -26,7 +26,6 @@ public class GameFrameController {
 
     private static long millisForCookCycle=1000;
     private static long unitsCookedForCookCycle=1;
-    private static long millisForTotalCookCycle=0;
 
     private static int succesfulIngredientsAdded=0;
 
@@ -40,7 +39,6 @@ public class GameFrameController {
     public final static String POLICE_COUNTDOWN="police";
     public final static String PROPORTION_COUNTDOWN="proportion";
     public final static String TRAY_COUNTDOWN="tray";
-    public final static String COOK_CYCLE="cookCycle";
     private static JTextArea policeCountdownLabel;
     private static CountdownRunnable policeCountdownRunnable;
     private static JTextArea ingredientCountdownLabel;
@@ -49,13 +47,13 @@ public class GameFrameController {
     private static CountdownRunnable proportionsCountdownRunnable;
     private static JTextArea trayCountdownLabel;
     private static CountdownRunnable trayCountdownRunnable;
-    private static CountdownRunnable cookCycleCountdownRunnable;
     //////////////////////////
     /*private static JTextArea trayCountdownLabel;
     private static ArrayList<CountdownRunnable> trayCookingQueue;
     private static CountdownRunnable trayAllCookedCountdownRunnable;*/
 
     private static CookerManagerThread cookermanagerthread;
+    private static AnimationThread animationthread;
     private DragNDropListener dragndroplistener;
     public GameFrameController(GameFrame gfr){
         media = new Media();
@@ -70,7 +68,6 @@ public class GameFrameController {
         regularSprites.get(1).setVisible(false);
 
         dragndroplistener=new DragNDropListener();
-        gf.getGamePanel().addMouseMotionListener(dragndroplistener.getMousemotionhandler());
 
         animatedCookers.forEach((g)-> g.addMouseListener(dragndroplistener));
         animatedCookers.forEach((g)-> g.addMouseMotionListener(dragndroplistener.getMousemotionhandler()));
@@ -86,6 +83,7 @@ public class GameFrameController {
         SpriteContainer fridge=(SpriteContainer)animatedContainers.get(4).getIcon();
         SpriteContainer van=(SpriteContainer)animatedContainers.get(5).getIcon();
         cookermanagerthread=new CookerManagerThread(mu,cs,hcl,tray,fridge,van);
+        animationthread=new AnimationThread();
     }
     private void initializeCountdownLabels(){
         initializePoliceCountdownLabel();
@@ -170,14 +168,6 @@ public class GameFrameController {
             return true;
         }
     }
-    public static boolean isCookCycleCountdownActive(){
-        if(cookCycleCountdownRunnable==null){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
 
     public static void resetCountdownRunnable(String IDENTIFIER){
         switch(IDENTIFIER){
@@ -195,11 +185,7 @@ public class GameFrameController {
                 break;
             case TRAY_COUNTDOWN:
                 if(isTraysCountdownActive()) trayCountdownRunnable.makeItStop();
-                trayCountdownRunnable=new CountdownRunnable(TRAY_COUNTDOWN,millisForTotalCookCycle,trayCountdownLabel,"",CountdownRunnable.XXsFORMAT);
-                break;
-            case COOK_CYCLE:
-                if(isCookCycleCountdownActive()) cookCycleCountdownRunnable.makeItStop();
-                cookCycleCountdownRunnable=new CountdownRunnable(COOK_CYCLE,millisForCookCycle,null,"",CountdownRunnable.XXsFORMAT);
+                trayCountdownRunnable=new CountdownRunnable(TRAY_COUNTDOWN,millisForCookCycle,trayCountdownLabel,"",CountdownRunnable.XXsFORMAT);
                 break;
         }
     }
@@ -216,11 +202,8 @@ public class GameFrameController {
                 makeLabExplode();
                 proportionsCountdownRunnable=null;
                 break;
-            case TRAY_COUNTDOWN: //When the tray countdown ends
+            case TRAY_COUNTDOWN: //When the cook cycle countdown ends
                 trayCountdownRunnable=null;
-                break;
-            case COOK_CYCLE: //When the cook cycle countdown ends
-                cookCycleCountdownRunnable=null;
                 cookermanagerthread.cookCycleDone();
                 break;
         }
@@ -236,8 +219,6 @@ public class GameFrameController {
         if(isIngredientCountdownActive()) ingredientCountdownRunnable.makeItStop();
         proportionsCountdownRunnable=null;
         ingredientCountdownRunnable=null;
-
-        //TODO: Delete the tray cooking queue
     }
     public static boolean hasLabExploded(){
         return labHasExploded;
@@ -269,7 +250,7 @@ public class GameFrameController {
         /////////////////////////////////////////////
         //CARDBOARD//
         regularSprites.add(new JLabel(""));
-        regularSprites.get(nRegular).setIcon(new Sprite(media.getCardboard(),"cardboard",0.35,0.84, regularSprites.get(nRegular)));
+        regularSprites.get(nRegular).setIcon(new Sprite(media.getCardboard(),null,"cardboard",0.35,0.84, regularSprites.get(nRegular)));
 
         gf.getGamePanel().add(regularSprites.get(nRegular));
         nRegular++;
@@ -278,7 +259,7 @@ public class GameFrameController {
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getMuTank(),"muTank",0.38,0.72,-1,100,animatedContainers.get(nContainer)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getMuTank(),media.getMuTankHighlighted(),"muTank",0.38,0.72,-1,100,animatedContainers.get(nContainer)));
 
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
@@ -289,7 +270,7 @@ public class GameFrameController {
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getHclTank(),"hclTank",0.45,0.68,-1,100,animatedContainers.get(nContainer)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getHclTank(),media.getHclTankHighlighted(),"hclTank",0.45,0.68,-1,100,animatedContainers.get(nContainer)));
 
         gf.getGamePanel().add(animatedContainers.get(nContainer));
         nContainer++;
@@ -298,7 +279,7 @@ public class GameFrameController {
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getCsTank(),"csTank",0.51,0.73,-1,100,animatedContainers.get(nContainer)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getCsTank(),media.getCsTankHighlighted(),"csTank",0.51,0.73,-1,100,animatedContainers.get(nContainer)));
 
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
@@ -306,7 +287,7 @@ public class GameFrameController {
         /////////////////////////////////////////////
         //FIRE//
         regularSprites.add(new JLabel(""));
-        regularSprites.get(nRegular).setIcon(new Sprite(media.getFire(),"fire",-0.005,-0.02, regularSprites.get(nRegular)));
+        regularSprites.get(nRegular).setIcon(new Sprite(media.getFire(),null,"fire",0,0, regularSprites.get(nRegular)));
 
         gf.getGamePanel().add(regularSprites.get(nRegular));
         nRegular++;
@@ -316,7 +297,7 @@ public class GameFrameController {
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getTray(),"tray",0.4,0.52,100,90,animatedContainers.get(nContainer)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getTray(),media.getTrayHighlighted(),"tray",0.4,0.52,100,90,animatedContainers.get(nContainer)));
 
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
@@ -324,7 +305,7 @@ public class GameFrameController {
         //////////////////////////////////////////////
         //POSTIT//
         regularSprites.add(new JLabel(""));
-        regularSprites.get(nRegular).setIcon(new Sprite(media.getPostit(),"postit",0.61,0.22, regularSprites.get(nRegular)));
+        regularSprites.get(nRegular).setIcon(new Sprite(media.getPostit(),media.getPostitHighlighted(),"postit",0.61,0.22, regularSprites.get(nRegular)));
 
         gf.getGamePanel().add(regularSprites.get(nRegular));
         nRegular++;
@@ -333,7 +314,7 @@ public class GameFrameController {
 
 
         animatedCookers.add(new JLabel(""));
-        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getMuCooker(),"muCooker",0.06,0.2,100,0,animatedCookers.get(nCooker)));
+        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getMuCooker(),media.getMuCookerHighlighted(),"muCooker",0.06,0.2,100,0,animatedCookers.get(nCooker)));
 
         gf.getGamePanel().add(animatedCookers.get(nCooker));
 
@@ -343,7 +324,7 @@ public class GameFrameController {
 
 
         animatedCookers.add(new JLabel(""));
-        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getHclCooker(),"hclCooker",0.3,0.2,100,0,animatedCookers.get(nCooker)));
+        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getHclCooker(),media.getHclCookerHighlighted(),"hclCooker",0.3,0.2,100,0,animatedCookers.get(nCooker)));
 
         gf.getGamePanel().add(animatedCookers.get(nCooker));
 
@@ -353,7 +334,7 @@ public class GameFrameController {
 
 
         animatedCookers.add(new JLabel(""));
-        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getCsCooker(),"csCooker",0.16,0.32,100,0,animatedCookers.get(nCooker)));
+        animatedCookers.get(nCooker).setIcon(new SpriteContainer(media.getCsCooker(),media.getCsCookerHighlighted(),"csCooker",0.16,0.32,100,0,animatedCookers.get(nCooker)));
 
         gf.getGamePanel().add(animatedCookers.get(nCooker));
 
@@ -361,7 +342,7 @@ public class GameFrameController {
         /////////////////////////////////////////////
         //TABLE//
         regularSprites.add(new JLabel(""));
-        regularSprites.get(nRegular).setIcon(new Sprite(media.getTable(),"table",0.03,0.5, regularSprites.get(nRegular)));
+        regularSprites.get(nRegular).setIcon(new Sprite(media.getTable(),null,"table",0.03,0.5, regularSprites.get(nRegular)));
 
         gf.getGamePanel().add(regularSprites.get(nRegular));
 
@@ -371,7 +352,7 @@ public class GameFrameController {
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getFridge(),"fridge",0.50,0.09,100,0,animatedContainers.get(nContainer)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getFridge(),media.getFridgeHighlighted(),"fridge",0.50,0.09,100,0,animatedContainers.get(nContainer)));
 
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
@@ -381,7 +362,7 @@ public class GameFrameController {
 
 
         animatedContainers.add(new JLabel(""));
-        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getVan(),"van",0.76,0.11,100,0,animatedContainers.get(nContainer)));
+        animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getVan(),media.getVanHighlighted(),"van",0.76,0.11,100,0,animatedContainers.get(nContainer)));
 
         gf.getGamePanel().add(animatedContainers.get(nContainer));
 
@@ -422,10 +403,6 @@ public class GameFrameController {
         return trayCountdownRunnable;
     }
 
-    public static CountdownRunnable getCookCycleCountdownRunnable() {
-        return cookCycleCountdownRunnable;
-    }
-
     public static CookerManagerThread getCookermanagerthread() {
         return cookermanagerthread;
     }
@@ -449,16 +426,9 @@ public class GameFrameController {
     public static GameFrame getGf() {
         return gf;
     }
-    public static void setMillisForTotalCookCycle(long millisForTotalCookCycle) {
-        GameFrameController.millisForTotalCookCycle=millisForTotalCookCycle;
-    }
 
     public static long getMillisForCookCycle() {
         return millisForCookCycle;
-    }
-
-    public static long getMillisForTotalCookCycle() {
-        return millisForTotalCookCycle;
     }
 
     public static void setPoliceCountdownRunnable(CountdownRunnable policeCountdownRunnable) {
@@ -477,7 +447,8 @@ public class GameFrameController {
         GameFrameController.trayCountdownRunnable=trayCountdownRunnable;
     }
 
-    public static void setCookCycleCountdownRunnable(CountdownRunnable cookCycleCountdownRunnable) {
-        GameFrameController.cookCycleCountdownRunnable=cookCycleCountdownRunnable;
+    public static JTextArea getTrayCountdownLabel() {
+        return trayCountdownLabel;
     }
+
 }

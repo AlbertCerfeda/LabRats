@@ -156,6 +156,8 @@ public class DragNDropListener implements MouseListener{
         }
         else{
             System.out.print("\nINVALID - ");
+            sourceLabel=null;
+            sourceLabelSprite=null;
         }
 
     }
@@ -176,17 +178,26 @@ public class DragNDropListener implements MouseListener{
     }
     @Override
     public void mouseEntered(MouseEvent e) {
-        Sprite enteredSprite=(Sprite)((JLabel)e.getSource()).getIcon();
+        Sprite enteredSprite=((Sprite)((JLabel)e.getSource()).getIcon());
         if(enteredSprite instanceof SpriteContainer){
+
             destinationLabel=(JLabel)e.getSource();
             destinationLabelSprite=(Sprite)(destinationLabel.getIcon());
             System.out.print("("+destinationLabelSprite.getName()+")");
+
+            enteredSprite.setHighlightMode(true);
+        }
+        else if(enteredSprite.getName().equals("postit")){
+            enteredSprite.setHighlightMode(true);
         }
     }
     @Override
     public void mouseExited(MouseEvent e) {
         destinationLabel=null;
         destinationLabelSprite=null;
+
+        Sprite exitedSprite=(Sprite)((JLabel)e.getSource()).getIcon();
+        exitedSprite.setHighlightMode(false);
     }
 
     public JLabel getDestinationLabel() {

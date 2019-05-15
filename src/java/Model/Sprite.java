@@ -48,7 +48,7 @@ public class Sprite extends ImageIcon {
         setX((int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent));
         setY((int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*yPercent));
     }
-    public void setHiglightMode(boolean set){
+    public void setHighlightMode(boolean set){
         highlighted=set;
     }
     public void setX(int x){
@@ -66,14 +66,19 @@ public class Sprite extends ImageIcon {
     }
 
     public void switchFrame(int index){
-        Image newFrame;
+        Image newFrame=normalFrames[index];
         if(highlighted){
-            newFrame=highlightedModeFrames[index];
+            if(highlightedModeFrames!=null){
+                newFrame=highlightedModeFrames[index];
+            }
         }
         else{
             newFrame=normalFrames[index];
         }
-        label.setIcon(new ImageIcon(newFrame));
+        super.setImage(newFrame);
+    }
+    public void setVisible(boolean visible){
+        label.setVisible(visible);
     }
     public String getName() {
         return name;

@@ -15,8 +15,8 @@ public class SpriteContainer extends Sprite {
     protected long capacity;  //It's maximum capacity
     protected long stored;  //The quantity stored in itù
 
-    public SpriteContainer(Image[] frames, String name, double xPercent, double yPercent, int capacity, int stored,JLabel label) {
-        super(frames, name, xPercent, yPercent,label);
+    public SpriteContainer(Image[] normalFrames,Image[] highlightModeFrames, String name, double xPercent, double yPercent, int capacity, int stored,JLabel label) {
+        super(normalFrames,highlightModeFrames, name, xPercent, yPercent,label);
         this.capacity=capacity;
         this.stored=stored;
 
@@ -31,9 +31,7 @@ public class SpriteContainer extends Sprite {
         label.setBorder(border);
 
         refreshBorder();
-
     }
-
     public void refreshBorder(){
         TitledBorder border=(TitledBorder)label.getBorder();
         Font font=border.getTitleFont();

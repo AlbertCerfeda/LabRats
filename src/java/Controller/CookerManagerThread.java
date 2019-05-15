@@ -4,7 +4,7 @@ import Model.SpriteContainer;
 
 public class CookerManagerThread implements Runnable{
 
-    private boolean cooking=false;
+    private static boolean cooking=false;
     public SpriteContainer mu;
     public SpriteContainer cs;
     public SpriteContainer hcl;
@@ -52,6 +52,11 @@ public class CookerManagerThread implements Runnable{
             GameFrameController.makeLabExplode();
         }
     }
+
+    public static boolean isCooking() {
+        return cooking;
+    }
+
     @Override
     public void run() {
         for(;;){
@@ -70,6 +75,7 @@ public class CookerManagerThread implements Runnable{
                             }
                             else{
                                 cooking=false;
+                                GameFrameController.getTrayCountdownRunnable().pause();
                             }
                         }
                         else{//If the proportions aren't right
@@ -85,39 +91,37 @@ public class CookerManagerThread implements Runnable{
 
                 /////////////////////////
                 if(cooking){
+
                     //If the countdowns were paused, it resumes them
 
 
-                    //Calculates the time taken for everything to cook
-                    GameFrameController.setMillisForTotalCookCycle(cs.getStored()*GameFrameController.getMillisForCookCycle());
-                    System.out.println(cs.getStored()*GameFrameController.getMillisForCookCycle());
                     if(GameFrameController.isTraysCountdownActive()){
                         GameFrameController.getTrayCountdownRunnable().resume();
                         //If the tray countdown is active
                         //Updates the total cooking countdown on the tray
-                        if( GameFrameController.getMillisForTotalCookCycle()-GameFrameController.getTrayCountdownRunnable().getRemainingMilliseconds()>1000){
-                            GameFrameController.getTrayCountdownRunnable().extendTime(GameFrameController.getMillisForTotalCookCycle()-GameFrameController.getTrayCountdownRunnable().getRemainingMilliseconds());
+                        if( GameFrameController.getMillisForCookCycle()!=GameFrameController.getTrayCountdownRunnable().getMilliseconds()){
+                            GameFrameController.getTrayCountdownRunnable().extendTime(GameFrameController.getTrayCountdownRunnable().getMilliseconds()-GameFrameController.getMillisForCookCycle());
                         }
+                    }
+                    else{
+                        System.out.print("\nRESETTAAAA");
+                        GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
+                    }
+                    if(GameFrameController.isTraysCountdownActive()){
+                        GameFrameController.getTrayCountdownRunnable().resume();
                     }
                     else{
                         GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
                     }
-                    if(GameFrameController.isCookCycleCountdownActive()){
-                        GameFrameController.getCookCycleCountdownRunnable().resume();
-                    }
-                    else{
-                        GameFrameController.resetCountdownRunnable(GameFrameController.COOK_CYCLE);
-                    }
                 }
                 else{
                     if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().pause();
-                    if(GameFrameController.isCookCycleCountdownActive()) GameFrameController.getCookCycleCountdownRunnable().pause();
                 }
             }
             else{
                 cooking=false;
                 if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().makeItStop();
-                if(GameFrameController.isCookCycleCountdownActive()) GameFrameController.getCookCycleCountdownRunnable().makeItStop();
+                if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().makeItStop();
             }
         }
     }

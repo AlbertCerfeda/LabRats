@@ -51,7 +51,7 @@ public class CountdownRunnable implements Runnable{
         remainingMilliseconds=milliseconds;
         int sleep=1000;
 
-        for(;stop==false&& remainingMilliseconds>0;){
+        for(;stop==false && remainingMilliseconds>0;){
             if (displayLabel!=null){
                 displayLabel.setVisible(true);
             }
@@ -79,6 +79,18 @@ public class CountdownRunnable implements Runnable{
         if (displayLabel!=null){
             displayLabel.setVisible(false);
             displayLabel.setText("");
+        }
+        if(GameFrameController.getTrayCountdownRunnable()==this){
+            GameFrameController.setTrayCountdownRunnable(null);
+        }
+        else if(GameFrameController.getIngredientCountdownRunnable()==this){
+            GameFrameController.setIngredientCountdownRunnable(null);
+        }
+        else if(GameFrameController.getProportionsCountdownRunnable()==this){
+            GameFrameController.setProportionsCountdownRunnable(null);
+        }
+        else if(GameFrameController.getPoliceCountdownRunnable()==this){
+            GameFrameController.setPoliceCountdownRunnable(null);
         }
 
     }
