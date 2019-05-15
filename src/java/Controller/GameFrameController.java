@@ -27,11 +27,9 @@ public class GameFrameController {
     private static long millisForCookCycle=1000;
     private static long unitsCookedForCookCycle=1;
 
-    private static int succesfulIngredientsAdded=0;
-
-
+    private static int successfulIngredientsAdded=0;
+    private static long money=0;
     private static boolean labHasExploded=false;
-
 
     ///////////////////////
     ////COUNTDOWN LABELS///
@@ -48,13 +46,16 @@ public class GameFrameController {
     private static JTextArea trayCountdownLabel;
     private static CountdownRunnable trayCountdownRunnable;
     //////////////////////////
+    private static JProgressBar vanProgressBar;
     /*private static JTextArea trayCountdownLabel;
     private static ArrayList<CountdownRunnable> trayCookingQueue;
     private static CountdownRunnable trayAllCookedCountdownRunnable;*/
 
     private static CookerManagerThread cookermanagerthread;
     private static AnimationThread animationthread;
+    private static VanThread vanThread;
     private DragNDropListener dragndroplistener;
+
     public GameFrameController(GameFrame gfr){
         media = new Media();
         gf=gfr;
@@ -63,6 +64,7 @@ public class GameFrameController {
         animatedContainers=new ArrayList<JLabel>();
         regularSprites=new ArrayList<JLabel>();
         gf.getGamePanel().removeAll();
+
         initializeCountdownLabels();
         initializeSprites();
         regularSprites.get(1).setVisible(false);
@@ -84,6 +86,8 @@ public class GameFrameController {
         SpriteContainer van=(SpriteContainer)animatedContainers.get(5).getIcon();
         cookermanagerthread=new CookerManagerThread(mu,cs,hcl,tray,fridge,van);
         animationthread=new AnimationThread();
+        vanThread=new VanThread(fridge,vanProgressBar);
+
     }
     private void initializeCountdownLabels(){
         initializePoliceCountdownLabel();
@@ -185,6 +189,7 @@ public class GameFrameController {
                 break;
             case TRAY_COUNTDOWN:
                 if(isTraysCountdownActive()) trayCountdownRunnable.makeItStop();
+                System.out.print("\nRESETTAAAA");
                 trayCountdownRunnable=new CountdownRunnable(TRAY_COUNTDOWN,millisForCookCycle,trayCountdownLabel,"",CountdownRunnable.XXsFORMAT);
                 break;
         }
@@ -224,9 +229,9 @@ public class GameFrameController {
         return labHasExploded;
     }
     public static void addSuccessfulIngredient(){
-        succesfulIngredientsAdded++;
+        successfulIngredientsAdded++;
 
-        int secDecrease=succesfulIngredientsAdded/3;
+        int secDecrease=successfulIngredientsAdded/3;
         if(secsForNextIngredient-secDecrease>=5){
             secsForNextIngredient-=secDecrease;
         }
@@ -359,12 +364,16 @@ public class GameFrameController {
         nContainer++;
         ////////////////////////////////////////////////////
         //VAN//
+        vanProgressBar=new JProgressBar(0,100);
 
+        gf.getGamePanel().add(vanProgressBar);
 
         animatedContainers.add(new JLabel(""));
         animatedContainers.get(nContainer).setIcon(new SpriteContainer(media.getVan(),media.getVanHighlighted(),"van",0.76,0.11,100,0,animatedContainers.get(nContainer)));
-
+        vanProgressBar.setBounds((int)animatedContainers.get(nContainer).getLocation().getX(),(int)animatedContainers.get(nContainer).getLocation().getY(),100,50);
         gf.getGamePanel().add(animatedContainers.get(nContainer));
+
+
 
         nContainer++;
         ////////////////////////////////////////////////////
@@ -451,4 +460,22 @@ public class GameFrameController {
         return trayCountdownLabel;
     }
 
+    public static VanThread getVanThread() {
+        return vanThread;
+    }
+
+    public static void addMoney(long plusMoney){
+        money+=plusMoney;
+    }
+    public static void removeMoney(long minusMoney){
+        money-=minusMoney;
+    }
+    public static boolean transactionPossible(long moneyModifier){
+        if(money+moneyModifier>=0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

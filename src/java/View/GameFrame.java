@@ -33,7 +33,9 @@ public class GameFrame extends JFrame implements Runnable {
         repaint();
         setVisible(true);
 
-        new Thread(this).start();
+        Thread thread=new Thread(this);
+        thread.setName("RepaintThread");
+        thread.start();
 
     }
 

@@ -104,7 +104,6 @@ public class CookerManagerThread implements Runnable{
                         }
                     }
                     else{
-                        System.out.print("\nRESETTAAAA");
                         GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
                     }
                     if(GameFrameController.isTraysCountdownActive()){
@@ -138,6 +137,5 @@ public class CookerManagerThread implements Runnable{
         hcl.removeStored(3);
         mu.removeStored(2);
         tray.addStored(GameFrameController.getUnitsCookedForCookCycle());
-
     }
 }

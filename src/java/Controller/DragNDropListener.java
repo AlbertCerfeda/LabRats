@@ -145,6 +145,11 @@ public class DragNDropListener implements MouseListener{
 
             instructionFrame.repaint();
         }
+        else if(((Sprite)((JLabel)e.getSource()).getIcon()).getName().equals("van")){
+            System.out.println("\nVanClicked");
+            GameFrameController.getVanThread().registerClick();
+
+        }
     }
     @Override
     public void mousePressed(MouseEvent e) {
@@ -159,7 +164,6 @@ public class DragNDropListener implements MouseListener{
             sourceLabel=null;
             sourceLabelSprite=null;
         }
-
     }
     @Override
     public void mouseReleased(MouseEvent e) {

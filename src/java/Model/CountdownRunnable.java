@@ -80,16 +80,21 @@ public class CountdownRunnable implements Runnable{
             displayLabel.setVisible(false);
             displayLabel.setText("");
         }
-        if(GameFrameController.getTrayCountdownRunnable()==this){
+
+        if((GameFrameController.isTraysCountdownActive()))
+        if(GameFrameController.getTrayCountdownRunnable().equals(this)){
             GameFrameController.setTrayCountdownRunnable(null);
         }
-        else if(GameFrameController.getIngredientCountdownRunnable()==this){
+        if((GameFrameController.isIngredientCountdownActive()))
+         if(GameFrameController.getIngredientCountdownRunnable().equals(this)){
             GameFrameController.setIngredientCountdownRunnable(null);
         }
-        else if(GameFrameController.getProportionsCountdownRunnable()==this){
+        if((GameFrameController.isProportionsCountdownActive()))
+            if(GameFrameController.isProportionsCountdownActive()&&GameFrameController.getProportionsCountdownRunnable().equals(this)){
             GameFrameController.setProportionsCountdownRunnable(null);
         }
-        else if(GameFrameController.getPoliceCountdownRunnable()==this){
+        if((GameFrameController.isPoliceCountdownActive()))
+        if(GameFrameController.getPoliceCountdownRunnable().equals(this)){
             GameFrameController.setPoliceCountdownRunnable(null);
         }
 

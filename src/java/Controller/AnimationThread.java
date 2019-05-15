@@ -98,13 +98,13 @@ public class AnimationThread implements Runnable{
             if((double)tray.getStored()/tray.getCapacity()==0){
                 tray.switchFrame(0);
             }
-            else if((double)tray.getStored()/tray.getCapacity()<0.25){
+            else if((double)tray.getStored()/tray.getCapacity()<=0.25){
                 tray.switchFrame(1);
             }
-            else if((double)tray.getStored()/tray.getCapacity()<0.5){
+            else if((double)tray.getStored()/tray.getCapacity()<=0.5){
                 tray.switchFrame(2);
             }
-            else if((double)tray.getStored()/tray.getCapacity()<0.75){
+            else if((double)tray.getStored()/tray.getCapacity()<=0.75){
                 tray.switchFrame(3);
             }
             else {
@@ -115,13 +115,13 @@ public class AnimationThread implements Runnable{
             if((double)fridge.getStored()/fridge.getCapacity()==0){
                 fridge.switchFrame(0);
             }
-            else if((double)fridge.getStored()/fridge.getCapacity()<0.25){
+            else if((double)fridge.getStored()/fridge.getCapacity()<=0.25){
                 fridge.switchFrame(1);
             }
-            else if((double)fridge.getStored()/fridge.getCapacity()<0.5){
+            else if((double)fridge.getStored()/fridge.getCapacity()<=0.5){
                 fridge.switchFrame(2);
             }
-            else if((double)fridge.getStored()/fridge.getCapacity()<0.75){
+            else if((double)fridge.getStored()/fridge.getCapacity()<=0.75){
                 fridge.switchFrame(3);
             }
             else {
@@ -132,13 +132,13 @@ public class AnimationThread implements Runnable{
             if((double)van.getStored()/van.getCapacity()==0){
                 van.switchFrame(0);
             }
-            else if((double)van.getStored()/van.getCapacity()<0.25){
+            else if((double)van.getStored()/van.getCapacity()<=0.25){
                 van.switchFrame(1);
             }
-            else if((double)van.getStored()/van.getCapacity()<0.5){
+            else if((double)van.getStored()/van.getCapacity()<=0.5){
                 van.switchFrame(2);
             }
-            else if((double)van.getStored()/van.getCapacity()<0.75){
+            else if((double)van.getStored()/van.getCapacity()<=0.75){
                 van.switchFrame(3);
             }
             else {
