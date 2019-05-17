@@ -18,6 +18,8 @@ public class Media{
     private Image[] van;
     private Image[] vanHighlighted;
     private Image[] background;
+    private Image[] shopBackground;
+
     private Image[] postit;
     private Image[] postitHighlighted;
     private Image[] fire;
@@ -31,7 +33,7 @@ public class Media{
 
     private Image[] instructions;
 
-    private  final double imageResizeRatio;
+    private double imageResizeRatio;
     private Toolkit tk;
 
     public Media() {
@@ -45,7 +47,9 @@ public class Media{
     }
 
     public void adjustImagesSize(){
+        imageResizeRatio= Toolkit.getDefaultToolkit().getScreenSize().getWidth()/new ImageIcon(background[0]).getIconWidth();
         adjustBackgroundSize();
+        adjustShopBackgroundImage();
         adjustCSSize();
         adjustFridgeSize();
         adjustHCLSize();
@@ -59,6 +63,14 @@ public class Media{
         adjustHclTankSize();
         adjustCsTankSize();
         adjustFireSize();
+    }
+    public void adjustShopBackgroundImage(){
+        double ratio=imageResizeRatio;
+        Image[] image;
+        image= shopBackground;
+        for(int n=0;n<image.length;n++){
+            image[n]=image[n].getScaledInstance((int)(new ImageIcon(image[n]).getIconWidth()*ratio),(int)(new ImageIcon(image[n]).getIconHeight()*ratio),Image.SCALE_SMOOTH);
+        }
     }
     public void adjustMUSize(){
         double ratio=imageResizeRatio;
@@ -229,6 +241,7 @@ public class Media{
         importHCLTANKImage();
         importINSTRUCTIONSImage();
         importFIREImage();
+        importSHOPBACKGROUNDImage();
         importBACKGROUNDImage();
     }
     public void importMUImages(){
@@ -415,6 +428,19 @@ public class Media{
             System.exit(0);
         }
     }
+    public void importSHOPBACKGROUNDImage(){
+        shopBackground=new Image[1];
+
+        shopBackground[0]=tk.getImage(getClass().getResource("/shop_0.png"));
+        if(shopBackground==null){
+            JFrame a =new JFrame("");
+            a.setVisible(false);
+
+            JOptionPane.showMessageDialog(a,"Error loading 'shop_0.png'","Media Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
+    }
+
     public void importBACKGROUNDImage(){
         background=new Image[1];
 

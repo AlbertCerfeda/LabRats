@@ -14,12 +14,13 @@ public class GameFrameController {
     public static Media media;
     public static GameFrame gf;
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////GAMEPANEL DATA////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<JLabel> animatedCookers;
-
     public static ArrayList<JLabel> animatedContainers;
-
     public static ArrayList<JLabel> regularSprites;
 
+    //STATS//
     private static int secsForNextIngredient=30;
     private static int secsForPolice=40;
     private static int secsForProportion=40;
@@ -29,13 +30,13 @@ public class GameFrameController {
     private static long moneyForCookedUnit=7;
 
     private static int successfulIngredientsAdded=0;
-    private static long money=0;
+    ////////////////////
+
     private static JLabel moneyLabel;
 
     private static boolean labHasExploded=false;
 
-    ///////////////////////
-    ////COUNTDOWN LABELS///
+    //COUNTDOWN LABELS//
     public final static String INGREDIENT_COUNTDOWN="ingredient";
     public final static String POLICE_COUNTDOWN="police";
     public final static String PROPORTION_COUNTDOWN="proportion";
@@ -48,28 +49,39 @@ public class GameFrameController {
     private static CountdownRunnable proportionsCountdownRunnable;
     private static JTextArea trayCountdownLabel;
     private static CountdownRunnable trayCountdownRunnable;
-    //////////////////////////
+    ///////////////////////
     private static JProgressBar vanProgressBar;
-    /*private static JTextArea trayCountdownLabel;
-    private static ArrayList<CountdownRunnable> trayCookingQueue;
-    private static CountdownRunnable trayAllCookedCountdownRunnable;*/
 
     private static CookerManagerThread cookermanagerthread;
     private static AnimationThread animationthread;
     private static VanThread vanThread;
     private DragNDropListener dragndroplistener;
+    private ShopPanelController shoppanelcontroller;
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ///SHOP-GAMEPANEL DATA//////////////////////////////////////////////////////////////////////////
+    private static long money=0;
+
+    private JLabel upgradesLabel;
+
+    private ArrayList<JLabel> itemLabel;
+    private JLabel quantityLabel;
+    private ArrayList<JSpinner> quantitySpinner;
+    private ArrayList<JButton> buyButton;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public GameFrameController(GameFrame gfr){
         media = new Media();
         gf=gfr;
-
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////GAME PANEL SETUP//////////////////////////////////////////////////////////////////////////////////////////
         animatedCookers=new ArrayList<JLabel>();
         animatedContainers=new ArrayList<JLabel>();
         regularSprites=new ArrayList<JLabel>();
         gf.getGamePanel().removeAll();
 
-        initializeLabels();
-        initializeSprites();
+        initializeGamePanelLabels();
+        initializeGamePanelSprites();
         regularSprites.get(1).setVisible(false);
 
         dragndroplistener=new DragNDropListener();
@@ -91,9 +103,21 @@ public class GameFrameController {
         cookermanagerthread=new CookerManagerThread(mu,cs,hcl,tray,fridge,van);
         animationthread=new AnimationThread();
         vanThread=new VanThread(van,vanProgressBar);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////SHOP PANEL SETUP//////////////////////////////////////////////////////////////////////////////////////////
+        upgradesLabel=new JLabel("UPGRADES");
 
+        itemLabel=new ArrayList<>();
+        quantityLabel=new JLabel();
+        quantitySpinner=new ArrayList<>();
+        buyButton=new ArrayList<>();
+
+        shoppanelcontroller=new ShopPanelController(upgradesLabel,itemLabel,quantityLabel,quantitySpinner,buyButton);
+        gf.getShopPanel().addMouseListener(shoppanelcontroller);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
-    private void initializeLabels(){
+    private void initializeGamePanelLabels(){
         initializePoliceCountdownLabel();
         initializeIngredientCountdownLabel();
         initializeProportionsCountdownLabel();
@@ -257,7 +281,7 @@ public class GameFrameController {
 
     }
 
-    private void initializeSprites(){
+    private void initializeGamePanelSprites(){
         int nContainer=0;
         int nRegular=0;
         int nCooker=0;
