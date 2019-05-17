@@ -18,50 +18,64 @@ public class VanThread implements Runnable {
         this.progressBar=progressBar;
 
 
-        Thread a= new Thread(); //Todo: Fix this weird bug
+        Thread a= new Thread(this); //Todo: Fix this weird bug
         a.setName("VanThread");
-        a.run();
+        a.start();
     }
 
     @Override
-    public void run() {
+    public void run(){
         for(;;){
-            if(!left){
-                //Decreases the progress bar
-                progressBar.setValue(progressBar.getValue()-4);
+            if(!left){ //Decreases the progress bar
 
-                if (progressBar.getValue()<=0){
+                if(progressBar.getValue()>=progressBar.getMaximum()){
+                    progressBar.setValue(0);
+                    leavingVanAnimation();
+                    left=true;
+
+
+                    int sleep= new Random().nextInt(79);
+                    sleep+=40;
+                    sleep+=1000;
+
+                    try{sleep(sleep/2);}catch (InterruptedException e){}
+                    GameFrameController.getCookermanagerthread().sellMeth(van.getStored());
+                    van.setStored(0);
+                    try{sleep(sleep/2);}catch (InterruptedException e){}
+
+                    returningVanAnimation();
+                    left=false;
+                }
+                else if (progressBar.getValue()<=0){
                     progressBar.setValue(0);
                     progressBar.setVisible(false);
                 }
-                try{sleep(300);}catch (InterruptedException e){}
+                else{
+                    progressBar.setVisible(true);
+                    progressBar.setValue(progressBar.getValue()-4);
+                }
+                try{sleep(400);}catch (InterruptedException e){}
             }
         }
     }
     private void leavingVanAnimation(){
         progressBar.setVisible(false);
+        for(long x=van.getX();x<GameFrameController.gf.getWidth();x+=3){
+            van.setX(x);
+            try{sleep(1);}catch (InterruptedException e){}
+        }
         van.setVisible(false);
-        System.out.println("LEFT");
     }
     private void returningVanAnimation(){
-        progressBar.setVisible(true);
         van.setVisible(true);
-        System.out.println("RETURNED");
+        for(long x=van.getX();x>=van.getOriginalXY().x;x-=3){
+            van.setX(x);
+            try{sleep(1);}catch (InterruptedException e){}
+        }
+        van.resetPosition();
+        progressBar.setVisible(true);
     }
     public void registerClick(){
-
         progressBar.setValue(progressBar.getValue()+6);
-
-        if(progressBar.getValue()>=progressBar.getMaximum()){
-            leavingVanAnimation();
-            left=true;
-
-            int sleep= new Random().nextInt(79);
-            sleep+=40;
-            sleep*=1000;
-            try{sleep(sleep);}catch (InterruptedException e){}
-            returningVanAnimation();
-            left=false;
-        }
     }
 }

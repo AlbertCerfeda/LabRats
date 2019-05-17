@@ -91,6 +91,8 @@ public class AnimationThread implements Runnable{
     @Override
     public void run() {
         for(;;){
+            GameFrameController.getMoneyLabel().setText(GameFrameController.getMoney()+"$");
+
             muCooker.switchFrame(0);
             csCooker.switchFrame(0);
             hclCooker.switchFrame(0);

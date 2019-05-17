@@ -138,4 +138,9 @@ public class CookerManagerThread implements Runnable{
         mu.removeStored(2);
         tray.addStored(GameFrameController.getUnitsCookedForCookCycle());
     }
+    public void sellMeth(long quantity){
+        if(quantity>0){
+            GameFrameController.addMoney(quantity*GameFrameController.getMoneyForCookedUnit());
+        }
+    }
 }

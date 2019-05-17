@@ -35,8 +35,7 @@ public class Sprite extends ImageIcon {
         this.label=label;
         Toolkit tk;
         tk=Toolkit.getDefaultToolkit();
-        x=(long)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent);
-        y=(long)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*yPercent);
+        resetPosition();
 
         label.setBounds(
                 (int)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent),
@@ -51,20 +50,24 @@ public class Sprite extends ImageIcon {
     public void setHighlightMode(boolean set){
         highlighted=set;
     }
-    public void setX(int x){
+    public void setX(long x){
         this.x=x;
-        label.setLocation(x,(int)y);
+        label.setLocation((int)x,(int)y);
     }
-    public void setY(int y){
+    public void setY(long y){
         this.y=y;
-        label.setLocation((int)x,y);
+        label.setLocation((int)x,(int)y);
     }
-    public void setXY(int x, int y){
+    public void setXY(long x, long y){
         this.x=x;
         this.y=y;
-        label.setLocation(x,y);
+        label.setLocation((int)x,(int)y);
     }
-
+    public Point getOriginalXY(){
+        Point result= new Point();
+        result.setLocation((long)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconWidth()*xPercent),(long)(new ImageIcon(GameFrameController.media.getBackground()[0]).getIconHeight()*yPercent));
+        return result;
+    }
     public void switchFrame(int index){
         Image newFrame=normalFrames[index];
         if(highlighted){
@@ -96,8 +99,13 @@ public class Sprite extends ImageIcon {
     public double getyPercent() {
         return yPercent;
     }
-
     public void setyPercent(double yPercent) {
         this.yPercent=yPercent;
+    }
+    public long getX() {
+        return x;
+    }
+    public long getY() {
+        return y;
     }
 }

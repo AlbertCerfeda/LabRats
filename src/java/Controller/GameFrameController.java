@@ -26,9 +26,12 @@ public class GameFrameController {
 
     private static long millisForCookCycle=1000;
     private static long unitsCookedForCookCycle=1;
+    private static long moneyForCookedUnit=7;
 
     private static int successfulIngredientsAdded=0;
     private static long money=0;
+    private static JLabel moneyLabel;
+
     private static boolean labHasExploded=false;
 
     ///////////////////////
@@ -65,7 +68,7 @@ public class GameFrameController {
         regularSprites=new ArrayList<JLabel>();
         gf.getGamePanel().removeAll();
 
-        initializeCountdownLabels();
+        initializeLabels();
         initializeSprites();
         regularSprites.get(1).setVisible(false);
 
@@ -84,16 +87,18 @@ public class GameFrameController {
         SpriteContainer tray=(SpriteContainer)animatedContainers.get(3).getIcon();
         SpriteContainer fridge=(SpriteContainer)animatedContainers.get(4).getIcon();
         SpriteContainer van=(SpriteContainer)animatedContainers.get(5).getIcon();
+
         cookermanagerthread=new CookerManagerThread(mu,cs,hcl,tray,fridge,van);
         animationthread=new AnimationThread();
-        vanThread=new VanThread(fridge,vanProgressBar);
+        vanThread=new VanThread(van,vanProgressBar);
 
     }
-    private void initializeCountdownLabels(){
+    private void initializeLabels(){
         initializePoliceCountdownLabel();
         initializeIngredientCountdownLabel();
         initializeProportionsCountdownLabel();
         initializeTrayCountdownLabel();
+        initializeMoneyLabel();
     }
     private void initializePoliceCountdownLabel(){
         policeCountdownLabel=new JTextArea("");
@@ -138,6 +143,15 @@ public class GameFrameController {
         trayCountdownLabel.setBorder(BorderFactory.createLineBorder(Color.white,1));
 
         gf.getGamePanel().add(trayCountdownLabel);
+    }
+    private void initializeMoneyLabel(){
+        moneyLabel=new JLabel(money+"$");
+        moneyLabel.setFont(new Font(Font.SANS_SERIF,Font.BOLD,(int)media.getImageResizeRatio()*8));
+        moneyLabel.setForeground(Color.green);
+        moneyLabel.setBounds((int)media.getImageResizeRatio()*180,(int)media.getImageResizeRatio()*123,(int)media.getImageResizeRatio()*60,(int)media.getImageResizeRatio()*8);
+        moneyLabel.setBorder(BorderFactory.createLineBorder(Color.white,1));
+
+        gf.getGamePanel().add(moneyLabel);
     }
 
     public static boolean isPoliceCountdownActive(){
@@ -464,6 +478,22 @@ public class GameFrameController {
         return vanThread;
     }
 
+    public static JLabel getMoneyLabel() {
+        return moneyLabel;
+    }
+
+    public static long getMoney() {
+        return money;
+    }
+
+    public static long getMoneyForCookedUnit() {
+        return moneyForCookedUnit;
+    }
+
+    public static void setMoney(long money) {
+        GameFrameController.money=money;
+    }
+
     public static void addMoney(long plusMoney){
         money+=plusMoney;
     }
@@ -478,4 +508,5 @@ public class GameFrameController {
             return false;
         }
     }
+
 }
