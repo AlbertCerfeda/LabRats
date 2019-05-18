@@ -25,57 +25,57 @@ public class ShopPanelController implements MouseListener{
 
         ////////////////////////////////
         ///CREATING ALL THE COMPONENTS
-        upgradesLabel=new JLabel("Upgrades");
+        this.upgradesLabel=new JLabel("Upgrades");
 
-        itemLabel.add(new JLabel("LeftCooker Storage"));
-        itemLabel.add(new JLabel("CentralCooker Storage"));
-        itemLabel.add(new JLabel("RightCooker Storage"));
-        itemLabel.add(new JLabel("Tray Storage"));
-        itemLabel.add(new JLabel("Fridge Storage"));
-        itemLabel.add(new JLabel("Van Storage"));
-        itemLabel.add(new JLabel("Cooking speed"));
-        itemLabel.add(new JLabel("Cooling speed"));
+        this.itemLabel.add(new JLabel("LeftCooker Storage"));
+        this.itemLabel.add(new JLabel("CentralCooker Storage"));
+        this.itemLabel.add(new JLabel("RightCooker Storage"));
+        this.itemLabel.add(new JLabel("Tray Storage"));
+        this.itemLabel.add(new JLabel("Fridge Storage"));
+        this.itemLabel.add(new JLabel("Van Storage"));
+        this.itemLabel.add(new JLabel("Cooking speed"));
+        this.itemLabel.add(new JLabel("Cooling speed"));
 
-        quantityLabel=new JLabel("Quantity");
+        this.quantityLabel=new JLabel("MIAO :3");
 
 
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
 
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
-        buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
+        this.buyButton.add(new JButton());
 
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
-        costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
+        this.costLabel.add(new JLabel());
         ///////////////////////////////////////////////////
+
+
+        GameFrameController.gf.getShopPanel().add(this.upgradesLabel);
+        this.itemLabel.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
+        GameFrameController.gf.getShopPanel().add(this.quantityLabel);
+        this.quantitySpinner.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
+        this.buyButton.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
+        this.costLabel.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
+
         adjustPosAndSize();
-
-        GameFrameController.gf.getShopPanel().add(upgradesLabel);
-        itemLabel.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
-        GameFrameController.gf.getShopPanel().add(quantityLabel);
-        quantitySpinner.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
-        buyButton.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
-        costLabel.forEach((g)-> GameFrameController.gf.getShopPanel().add(g));
-
-
     }
     public void adjustPosAndSize(){
         double imageResizeRatio=GameFrameController.media.getImageResizeRatio();
@@ -92,11 +92,10 @@ public class ShopPanelController implements MouseListener{
         itemLabel.forEach((g)-> g.setBorder(BorderFactory.createLineBorder(Color.white,2)));
 
 
-        quantityLabel.setText("Quantity");
+        quantityLabel.setText("Miao :3");
         quantityLabel.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,(int)imageResizeRatio*5));
-        quantityLabel.setForeground(Color.white);
-        quantityLabel.setSize((int)imageResizeRatio*10,(int)imageResizeRatio*10);
-        quantityLabel.setLocation(10,10);
+        quantityLabel.setForeground(Color.GREEN);
+        quantityLabel.setBounds((int)imageResizeRatio*10,(int)imageResizeRatio*10,(int)imageResizeRatio*20,(int)imageResizeRatio*10);
         quantityLabel.setBorder(BorderFactory.createLineBorder(Color.white,2));
 
         quantitySpinner.forEach((g)-> g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,(int)imageResizeRatio*5)));
