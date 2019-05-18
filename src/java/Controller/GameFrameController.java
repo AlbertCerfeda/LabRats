@@ -68,7 +68,7 @@ public class GameFrameController {
     private JLabel quantityLabel;
     private ArrayList<JSpinner> quantitySpinner;
     private ArrayList<JButton> buyButton;
-
+    private ArrayList<JLabel> costLabel;
     ////////////////////////////////////////////////////////////////////////////////////////////////
     public GameFrameController(GameFrame gfr){
         media = new Media();
@@ -111,8 +111,9 @@ public class GameFrameController {
         quantityLabel=new JLabel();
         quantitySpinner=new ArrayList<>();
         buyButton=new ArrayList<>();
+        costLabel=new ArrayList<>();
 
-        shoppanelcontroller=new ShopPanelController(upgradesLabel,itemLabel,quantityLabel,quantitySpinner,buyButton);
+        shoppanelcontroller=new ShopPanelController(upgradesLabel,itemLabel,quantityLabel,quantitySpinner,buyButton,costLabel);
         gf.getShopPanel().addMouseListener(shoppanelcontroller);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////

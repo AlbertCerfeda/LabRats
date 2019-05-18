@@ -125,12 +125,10 @@ public class CookerManagerThread implements Runnable{
         }
     }
     public boolean checkProportions(){
-
-
-            if(cs.getStored()*3==hcl.getStored() && cs.getStored()*2==mu.getStored()){
-                return true;
-            }
-            return false;
+        if(cs.getStored()*3==hcl.getStored() && cs.getStored()*2==mu.getStored()){
+            return true;
+        }
+        return false;
     }
     public void cookCycleDone(){
         cs.removeStored(1);
