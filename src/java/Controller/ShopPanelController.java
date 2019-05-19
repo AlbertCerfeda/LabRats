@@ -36,17 +36,17 @@ public class ShopPanelController implements MouseListener{
         this.itemLabel.add(new JLabel("Cooking speed"));
         this.itemLabel.add(new JLabel("Cooling speed"));
 
-        this.quantityLabel=new JLabel("MIAO :3");
+        this.quantityLabel=new JLabel("Quantity");
 
 
         this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
-        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel()));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
+        this.quantitySpinner.add(new JSpinner(new SpinnerNumberModel(0,0,null,1)));
 
         this.buyButton.add(new JButton());
         this.buyButton.add(new JButton());

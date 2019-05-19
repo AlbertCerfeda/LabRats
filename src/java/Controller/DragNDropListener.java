@@ -34,7 +34,6 @@ public class DragNDropListener implements MouseListener{
             //////////////////////////////////////////////
             //Spaghetti code to make it work
             if(sourceTank.contains("mu")&&destinationCooker.contains("mu")){
-                System.out.println();
                 sourceTank="mu";
                 destinationCooker="mu";
             }
@@ -55,7 +54,6 @@ public class DragNDropListener implements MouseListener{
                 transferPossible=false;
                 GameFrameController.makeLabExplode();
                 //TODO: Signal that the countdown for police has to start
-                System.out.println("Wrong ingredient in wrong tank. Explosion!! The poo-poo is coming");
             }
         }
         else if((sourceContainerSprite.getName().contains("tray")&&destinationLabelSprite.getName().contains("fridge"))||//If you dragged the tray over the fridge
@@ -64,7 +62,6 @@ public class DragNDropListener implements MouseListener{
         }
         if(transferPossible){//Makes the transfer
             int max=(int)sourceContainerSprite.getStored();
-            System.out.println("|||"+(int)sourceContainerSprite.getStored()+"|||");
             int defValue=0;
             if(sourceLabelSprite.getName().equals("tray")||sourceLabelSprite.getName().equals("fridge")){
                 defValue=-1;
@@ -84,9 +81,7 @@ public class DragNDropListener implements MouseListener{
             ////////////////////////////////////////////
 
             if (option == JOptionPane.CANCEL_OPTION||option==JOptionPane.CLOSED_OPTION|| (int)sModel.getValue()==0){//if user click Cancel or closes the window
-                System.out.println("CANCELLED");
             } else if (option == JOptionPane.OK_OPTION){//If user gives ok
-                System.out.println("OK!! -----"+(int)sModel.getValue());
 
                 if(sourceContainerSprite.getName().contains("Tank")){
                     String ingredient="";
@@ -108,7 +103,6 @@ public class DragNDropListener implements MouseListener{
                 }
                 sourceContainerSprite.removeStored(quantity);
                 sourceContainerSprite.addStored(destinationContainerSprite.addStored(quantity)); //The difference in excess when storing gets added back to the source
-                System.out.println("transfer complete!!");
             }
 
 
@@ -126,7 +120,6 @@ public class DragNDropListener implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         if(((Sprite)((JLabel)e.getSource()).getIcon()).getName().equals("postit")){
-            System.out.println("\npostit");
             Toolkit tk=Toolkit.getDefaultToolkit();
 
             JFrame instructionFrame = new JFrame("how to cook some good meth step-by-step");
@@ -146,7 +139,6 @@ public class DragNDropListener implements MouseListener{
             instructionFrame.repaint();
         }
         else if(((Sprite)((JLabel)e.getSource()).getIcon()).getName().equals("van")){
-            System.out.println("\nVanClicked");
             GameFrameController.getVanThread().registerClick();
 
         }
@@ -157,10 +149,8 @@ public class DragNDropListener implements MouseListener{
         if(pressedSprite instanceof SpriteContainer){
             sourceLabel=(JLabel)e.getSource();
             sourceLabelSprite=pressedSprite;
-            System.out.print("\n"+sourceLabelSprite.getName()+" - ");
         }
         else{
-            System.out.print("\nINVALID - ");
             sourceLabel=null;
             sourceLabelSprite=null;
         }
@@ -171,14 +161,8 @@ public class DragNDropListener implements MouseListener{
             sourceLabelSprite.resetPosition();
         }
         if(sourceLabel!=null&&destinationLabel!=null){
-
             attemptTransfer();
-            System.out.print("-- dest."+destinationLabelSprite.getName()+"\n");
         }
-        else{
-            System.out.print(" - dest.INVALID\n");
-        }
-
     }
     @Override
     public void mouseEntered(MouseEvent e) {
@@ -187,7 +171,6 @@ public class DragNDropListener implements MouseListener{
 
             destinationLabel=(JLabel)e.getSource();
             destinationLabelSprite=(Sprite)(destinationLabel.getIcon());
-            System.out.print("("+destinationLabelSprite.getName()+")");
 
             enteredSprite.setHighlightMode(true);
         }

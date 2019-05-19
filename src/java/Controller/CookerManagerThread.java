@@ -63,64 +63,53 @@ public class CookerManagerThread implements Runnable{
             if(!GameFrameController.hasLabExploded()){
                 /////////////////////////
                 //Proportions Part
-                    System.out.print("");
-                    if(cs.getStored()>0||hcl.getStored()>0||mu.getStored()>0){
-                        if(checkProportions()){//If the proportions are right
-                            if(GameFrameController.isProportionsCountdownActive()){
-                                GameFrameController.getProportionsCountdownRunnable() .makeItStop();
-                                GameFrameController.setProportionsCountdownRunnable(null);
-                            }
-                            if(tray.getStored()+GameFrameController.getUnitsCookedForCookCycle()<=tray.getCapacity()){
-                                cooking=true;
-                            }
-                            else{
-                                cooking=false;
-                                GameFrameController.getTrayCountdownRunnable().pause();
-                            }
-                        }
-                        else{//If the proportions aren't right
-                            cooking=false;
-                            if(!GameFrameController.isProportionsCountdownActive()){//If the countdown isn't running yet it sets it running
-                                GameFrameController.proportionsAreWrong();
-                            }
-                        }
+                System.out.print("");
+                if(cs.getStored()>0||hcl.getStored()>0||mu.getStored()>0){
+                    if(checkProportions() && tray.getStored()+GameFrameController.getUnitsCookedForCookCycle()<=tray.getCapacity()){//If the proportions are right
+                        cooking=true;
                     }
-                    else{
+                    else {
                         cooking=false;
-                    }
-
-                /////////////////////////
-                if(cooking){
-
-                    //If the countdowns were paused, it resumes them
-
-
-                    if(GameFrameController.isTraysCountdownActive()){
-                        GameFrameController.getTrayCountdownRunnable().resume();
-                        //If the tray countdown is active
-                        //Updates the total cooking countdown on the tray
-                        if( GameFrameController.getMillisForCookCycle()!=GameFrameController.getTrayCountdownRunnable().getMilliseconds()){
-                            GameFrameController.getTrayCountdownRunnable().extendTime(GameFrameController.getTrayCountdownRunnable().getMilliseconds()-GameFrameController.getMillisForCookCycle());
-                        }
-                    }
-                    else{
-                        GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
-                    }
-                    if(GameFrameController.isTraysCountdownActive()){
-                        GameFrameController.getTrayCountdownRunnable().resume();
-                    }
-                    else{
-                        GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
                     }
                 }
                 else{
-                    if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().pause();
+                    cooking=false;
                 }
+                if(cooking){
+                    if(!GameFrameController.isTraysCountdownActive()){
+                        GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
+                    }
+                    if(GameFrameController.isProportionsCountdownActive()) GameFrameController.getProportionsCountdownRunnable().makeItStop();
+                }
+                else{
+                    if(GameFrameController.isTraysCountdownActive()){
+                        try{
+                            GameFrameController.getTrayCountdownRunnable().makeItStop();
+                        }catch (NullPointerException e){
+                        }
+                    }
+                    if(!checkProportions()){
+                        if(!GameFrameController.isProportionsCountdownActive()) GameFrameController.resetCountdownRunnable(GameFrameController.PROPORTION_COUNTDOWN);
+                    }
+                }
+                /////////////////////////
             }
             else{
-                cooking=false;
-                if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().makeItStop();
-                if(GameFrameController.isTraysCountdownActive()) GameFrameController.getTrayCountdownRunnable().makeItStop();
+                if(GameFrameController.isTraysCountdownActive()){
+                    try{
+                        GameFrameController.getTrayCountdownRunnable().makeItStop();
+                    }catch(NullPointerException e){}
+                }
+                if(GameFrameController.isProportionsCountdownActive()){
+                    try{
+                        GameFrameController.getProportionsCountdownRunnable().makeItStop();
+                    }catch(NullPointerException e){}
+                }
+                if(GameFrameController.isIngredientCountdownActive()){
+                    try{
+                        GameFrameController.getIngredientCountdownRunnable().makeItStop();
+                    }catch(NullPointerException e){}
+                }
             }
         }
     }

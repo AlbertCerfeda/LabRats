@@ -35,8 +35,8 @@ public class GameFrame extends JFrame implements Runnable {
         shopPanel.setLayout(null);
 
         //TODO: Change temporary code
-        gamePanel.setVisible(false);
-        shopPanel.setVisible(true);
+        gamePanel.setVisible(true);
+        shopPanel.setVisible(false);
 
         add(gamePanel);
         add(shopPanel);

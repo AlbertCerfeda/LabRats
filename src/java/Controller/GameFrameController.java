@@ -205,9 +205,11 @@ public class GameFrameController {
     }
     public static boolean isTraysCountdownActive(){
         if(trayCountdownRunnable==null){
+            System.out.print("");
             return false;
         }
         else{
+            System.out.print("");
             return true;
         }
     }
@@ -261,8 +263,6 @@ public class GameFrameController {
         resetCountdownRunnable(POLICE_COUNTDOWN);
         if(isProportionsCountdownActive()) proportionsCountdownRunnable.makeItStop();
         if(isIngredientCountdownActive()) ingredientCountdownRunnable.makeItStop();
-        proportionsCountdownRunnable=null;
-        ingredientCountdownRunnable=null;
     }
     public static boolean hasLabExploded(){
         return labHasExploded;
@@ -479,20 +479,20 @@ public class GameFrameController {
         return millisForCookCycle;
     }
 
-    public static void setPoliceCountdownRunnable(CountdownRunnable policeCountdownRunnable) {
-        GameFrameController.policeCountdownRunnable=policeCountdownRunnable;
+    public static void setPoliceCountdownRunnable(CountdownRunnable newPoliceCountdownRunnable) {
+        policeCountdownRunnable=newPoliceCountdownRunnable;
     }
 
-    public static void setIngredientCountdownRunnable(CountdownRunnable ingredientCountdownRunnable) {
-        GameFrameController.ingredientCountdownRunnable=ingredientCountdownRunnable;
+    public static void setIngredientCountdownRunnable(CountdownRunnable newIngredientCountdownRunnable) {
+        ingredientCountdownRunnable=newIngredientCountdownRunnable;
     }
 
-    public static void setProportionsCountdownRunnable(CountdownRunnable proportionsCountdownRunnable) {
-        GameFrameController.proportionsCountdownRunnable=proportionsCountdownRunnable;
+    public static void setProportionsCountdownRunnable(CountdownRunnable newProportionsCountdownRunnable) {
+        proportionsCountdownRunnable=newProportionsCountdownRunnable;
     }
 
-    public static void setTrayCountdownRunnable(CountdownRunnable trayCountdownRunnable) {
-        GameFrameController.trayCountdownRunnable=trayCountdownRunnable;
+    public static void setTrayCountdownRunnable(CountdownRunnable newTrayCountdownRunnable) {
+        trayCountdownRunnable=newTrayCountdownRunnable;
     }
 
     public static JTextArea getTrayCountdownLabel() {

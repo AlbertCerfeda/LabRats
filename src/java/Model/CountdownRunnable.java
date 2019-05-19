@@ -81,9 +81,11 @@ public class CountdownRunnable implements Runnable{
             displayLabel.setText("");
         }
 
+
         if((GameFrameController.isTraysCountdownActive()))
         if(GameFrameController.getTrayCountdownRunnable().equals(this)){
             GameFrameController.setTrayCountdownRunnable(null);
+            System.out.println("SONO VUOTO");
         }
         if((GameFrameController.isIngredientCountdownActive()))
          if(GameFrameController.getIngredientCountdownRunnable().equals(this)){
@@ -98,6 +100,7 @@ public class CountdownRunnable implements Runnable{
             GameFrameController.setPoliceCountdownRunnable(null);
         }
 
+        thread=null;
     }
 
     public void pause() {
