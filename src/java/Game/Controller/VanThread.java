@@ -1,10 +1,9 @@
-package Controller;
+package Game.Controller;
 
-import Model.SpriteContainer;
+import Game.Model.SpriteContainer;
 
 import javax.swing.*;
 import java.util.Random;
-import java.util.concurrent.RunnableScheduledFuture;
 
 import static java.lang.Thread.sleep;
 

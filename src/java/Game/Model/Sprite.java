@@ -1,6 +1,6 @@
-package Model;
+package Game.Model;
 
-import Controller.GameFrameController;
+import Game.Controller.GameFrameController;
 
 import javax.swing.*;
 import java.awt.*;

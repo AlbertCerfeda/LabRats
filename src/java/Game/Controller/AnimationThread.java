@@ -1,9 +1,7 @@
-package Controller;
+package Game.Controller;
 
-import Model.Sprite;
-import Model.SpriteContainer;
-
-import java.util.jar.JarFile;
+import Game.Model.Sprite;
+import Game.Model.SpriteContainer;
 
 import static java.lang.Thread.sleep;
 
@@ -90,12 +88,16 @@ public class AnimationThread implements Runnable{
 
     @Override
     public void run() {
+        muCooker.switchFrame(0);
+        csCooker.switchFrame(0);
+        hclCooker.switchFrame(0);
         for(;;){
             GameFrameController.getMoneyLabel().setText(GameFrameController.getMoney()+"$");
+            if (ShopPanelController.getMoneyLabel()!=null){
+                ShopPanelController.getMoneyLabel().setText(GameFrameController.getMoney()+"$");
+            }
+            GameFrameController.getFridgeReadyLabel().setText(GameFrameController.getCookermanagerthread().fridge.getStored2()+"/"+GameFrameController.getCookermanagerthread().fridge.getStored()*GameFrameController.getUnitsCooledForCoolingCycle());
 
-            muCooker.switchFrame(0);
-            csCooker.switchFrame(0);
-            hclCooker.switchFrame(0);
             ////TRAY UPDATE//
             if((double)tray.getStored()/tray.getCapacity()==0){
                 tray.switchFrame(0);

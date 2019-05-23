@@ -1,22 +1,30 @@
-package Controller;
+package Game.Controller;
 
-import Model.Sprite;
-import Model.SpriteContainer;
-import View.BackgroundPanel;
+import Game.Model.Sprite;
+import Game.Model.SpriteContainer;
+import Game.View.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
-public class DragNDropListener implements MouseListener{
+public class DragNDropListener implements MouseListener, ActionListener {
 
     private JLabel sourceLabel;
     private Sprite sourceLabelSprite;
 
     private JLabel destinationLabel;
     private Sprite destinationLabelSprite;
+
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() instanceof JButton){
+            if(((JButton)e.getSource()).getText()==GameFrameController.getShopButton().getText()){
+                GameFrame.setShopVisible();
+            }
+        }
+    }
 
     private void attemptTransfer(){
         SpriteContainer sourceContainerSprite=(SpriteContainer) sourceLabelSprite;
@@ -53,7 +61,6 @@ public class DragNDropListener implements MouseListener{
             else{//If a mistake has been made, the police gets alerted and the countdown starts
                 transferPossible=false;
                 GameFrameController.makeLabExplode();
-                //TODO: Signal that the countdown for police has to start
             }
         }
         else if((sourceContainerSprite.getName().contains("tray")&&destinationLabelSprite.getName().contains("fridge"))||//If you dragged the tray over the fridge
@@ -61,7 +68,14 @@ public class DragNDropListener implements MouseListener{
             transferPossible=true;
         }
         if(transferPossible){//Makes the transfer
-            int max=(int)sourceContainerSprite.getStored();
+            int max;
+            if(sourceContainerSprite.getName().contains("fridge")){
+                max=(int)((SpriteContainer)sourceLabelSprite).getStored2();
+            }
+            else{
+                max=(int)sourceContainerSprite.getStored();
+            }
+
             int defValue=0;
             if(sourceLabelSprite.getName().equals("tray")||sourceLabelSprite.getName().equals("fridge")){
                 defValue=-1;
@@ -72,7 +86,10 @@ public class DragNDropListener implements MouseListener{
             SpinnerNumberModel sModel = new SpinnerNumberModel(defValue, -1, max, 1);
             JSpinner spinner = new JSpinner(sModel);
             int option;
-            if(destinationContainerSprite.getStored()==destinationContainerSprite.getCapacity()||sourceContainerSprite.getStored()==0){
+            if((sourceContainerSprite.getName().contains("fridge")&&sourceContainerSprite.getStored2()==0)){
+                option=JOptionPane.CANCEL_OPTION;
+            }
+            else if(destinationContainerSprite.getStored()==destinationContainerSprite.getCapacity()||sourceContainerSprite.getStored()==0){
                 option=JOptionPane.CANCEL_OPTION;
             }
             else{
@@ -99,13 +116,27 @@ public class DragNDropListener implements MouseListener{
 
                 long quantity=(int)sModel.getValue();
                 if(quantity==-1){
-                    quantity=sourceContainerSprite.getStored();
+                    if(sourceLabelSprite.getName().equals("fridge")){
+                        quantity=(int)((SpriteContainer)sourceLabelSprite).getStored2();
+                    }
+                    else{
+                        quantity=sourceContainerSprite.getStored();
+                    }
+
                 }
-                sourceContainerSprite.removeStored(quantity);
-                sourceContainerSprite.addStored(destinationContainerSprite.addStored(quantity)); //The difference in excess when storing gets added back to the source
+                if(sourceLabelSprite.getName().equals("fridge")){
+                    sourceContainerSprite.removeStored(quantity);
+                    sourceContainerSprite.removeStored2(quantity);
+                    int difference=(int)destinationContainerSprite.addStored(quantity); //The difference in excess when storing gets added back to the source//////
+                    sourceContainerSprite.addStored(difference);
+                    sourceContainerSprite.addStored2(difference);
+                }
+                else{
+                    sourceContainerSprite.removeStored(quantity);
+                    sourceContainerSprite.addStored(destinationContainerSprite.addStored(quantity)); //The difference in excess when storing gets added back to the source//////
+                }
+
             }
-
-
         }
     }
     private MouseMotionHandler mousemotionhandler;
@@ -115,6 +146,7 @@ public class DragNDropListener implements MouseListener{
 
     public DragNDropListener() {
         mousemotionhandler=new MouseMotionHandler(this);
+
     }
 
     @Override
@@ -197,21 +229,19 @@ public class DragNDropListener implements MouseListener{
         return mousemotionhandler;
     }
 }
-class MouseMotionHandler implements MouseMotionListener,Runnable{
+class MouseMotionHandler implements MouseMotionListener{
     DragNDropListener dragndroplistener;
 
     public MouseMotionHandler(DragNDropListener dragndroplistener) {
         this.dragndroplistener=dragndroplistener;
-        Thread thread=new Thread(this);
-        thread.setName("MouseMotionListener");
-        thread.start();
+
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         if (dragndroplistener.getSourceLabelSprite()!=null&&(dragndroplistener.getSourceLabelSprite().getName().contains("Tank")||dragndroplistener.getSourceLabelSprite().getName().equals("tray"))){
             Point mousePos=GameFrameController.gf.getGamePanel().getMousePosition();
-            dragndroplistener.getSourceLabelSprite().setXY(mousePos.x+1,mousePos.y+1);
+            dragndroplistener.getSourceLabelSprite().setXY(mousePos.x+5,mousePos.y+5);
         }
     }
 
@@ -220,8 +250,4 @@ class MouseMotionHandler implements MouseMotionListener,Runnable{
 
     }
 
-    @Override
-    public void run() {
-
-    }
 }

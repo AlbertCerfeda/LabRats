@@ -1,6 +1,6 @@
-package Model;
+package Game.Model;
 
-import Controller.GameFrameController;
+import Game.Controller.GameFrameController;
 
 import javax.swing.*;
 
@@ -85,7 +85,6 @@ public class CountdownRunnable implements Runnable{
         if((GameFrameController.isTraysCountdownActive()))
         if(GameFrameController.getTrayCountdownRunnable().equals(this)){
             GameFrameController.setTrayCountdownRunnable(null);
-            System.out.println("SONO VUOTO");
         }
         if((GameFrameController.isIngredientCountdownActive()))
          if(GameFrameController.getIngredientCountdownRunnable().equals(this)){
@@ -96,9 +95,13 @@ public class CountdownRunnable implements Runnable{
             GameFrameController.setProportionsCountdownRunnable(null);
         }
         if((GameFrameController.isPoliceCountdownActive()))
-        if(GameFrameController.getPoliceCountdownRunnable().equals(this)){
-            GameFrameController.setPoliceCountdownRunnable(null);
-        }
+            if(GameFrameController.getPoliceCountdownRunnable().equals(this)){
+                GameFrameController.setPoliceCountdownRunnable(null);
+            }
+        if((GameFrameController.isFridgeCountdownActive()))
+            if(GameFrameController.getFridgeCountdownRunnable().equals(this)){
+                GameFrameController.setFridgeCountdownRunnable(null);
+            }
 
         thread=null;
     }

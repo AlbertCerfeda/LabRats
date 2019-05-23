@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/target/test-classes/Model/sprites" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/sprites" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/SoundFX" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

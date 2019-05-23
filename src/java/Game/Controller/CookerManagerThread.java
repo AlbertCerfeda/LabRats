@@ -1,6 +1,6 @@
-package Controller;
+package Game.Controller;
 
-import Model.SpriteContainer;
+import Game.Model.SpriteContainer;
 
 public class CookerManagerThread implements Runnable{
 
@@ -79,7 +79,12 @@ public class CookerManagerThread implements Runnable{
                     if(!GameFrameController.isTraysCountdownActive()){
                         GameFrameController.resetCountdownRunnable(GameFrameController.TRAY_COUNTDOWN);
                     }
-                    if(GameFrameController.isProportionsCountdownActive()) GameFrameController.getProportionsCountdownRunnable().makeItStop();
+                    if(GameFrameController.isProportionsCountdownActive())
+                        try{
+                            GameFrameController.getProportionsCountdownRunnable().makeItStop();
+                        }catch (NullPointerException e){
+                        }
+
                 }
                 else{
                     if(GameFrameController.isTraysCountdownActive()){
@@ -111,6 +116,13 @@ public class CookerManagerThread implements Runnable{
                     }catch(NullPointerException e){}
                 }
             }
+            System.out.print("");
+            if(fridge.getStored()>0&&fridge.getStored()*GameFrameController.getUnitsCooledForCoolingCycle()!=fridge.getStored2()&&fridge.getStored2()+GameFrameController.getUnitsCooledForCoolingCycle()<=fridge.getCapacity()){
+                System.out.print("");
+                if(!GameFrameController.isFridgeCountdownActive()){
+                    GameFrameController.resetCountdownRunnable(GameFrameController.FRIDGE_COUNTDOWN);
+                }
+            }
         }
     }
     public boolean checkProportions(){
@@ -125,9 +137,14 @@ public class CookerManagerThread implements Runnable{
         mu.removeStored(2);
         tray.addStored(GameFrameController.getUnitsCookedForCookCycle());
     }
+    public void coolingCycleDone(){
+        fridge.addStored2(GameFrameController.getUnitsCooledForCoolingCycle());
+    }
     public void sellMeth(long quantity){
         if(quantity>0){
             GameFrameController.addMoney(quantity*GameFrameController.getMoneyForCookedUnit());
+            GameFrameController.addMoneyMade(quantity*GameFrameController.getMoneyForCookedUnit());
+            GameFrameController.addSuccessfullBags(quantity);
         }
     }
 }

@@ -1,10 +1,6 @@
-package View;
-
-import Controller.GameFrameController;
-import Model.Media;
+package Game.View;
 
 import java.awt.*;
-import java.awt.image.*;
 import javax.swing.*;
 
 /*

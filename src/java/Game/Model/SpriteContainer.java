@@ -1,9 +1,8 @@
-package Model;
+package Game.Model;
 
-import Controller.GameFrameController;
+import Game.Controller.GameFrameController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
@@ -13,7 +12,10 @@ public class SpriteContainer extends Sprite {
     protected JLabel floatingInfoLabel;//The following label which indicates the storage informations
 
     protected long capacity;  //It's maximum capacity
-    protected long stored;  //The quantity stored in itù
+    protected long stored;  //The quantity stored in it
+
+    protected long capacity2;  //It's maximum capacity. Its another one just in case
+    protected long stored2; //The quantity stored in it. Its another one just in case
 
     public SpriteContainer(Image[] normalFrames,Image[] highlightModeFrames, String name, double xPercent, double yPercent, int capacity, int stored,JLabel label) {
         super(normalFrames,highlightModeFrames, name, xPercent, yPercent,label);
@@ -66,6 +68,7 @@ public class SpriteContainer extends Sprite {
     }
     public void setCapacity(long capacity) {
         this.capacity=capacity;
+        this.capacity2=capacity;
         refreshBorder();
     }
     public long getStored() {
@@ -74,6 +77,10 @@ public class SpriteContainer extends Sprite {
     public void setStored(long stored) {
         this.stored=stored;
         refreshBorder();
+    }
+    public long addStored2(long addedStorage2){
+        stored2+=addedStorage2;
+        return 0;
     }
     public long addStored(long addedStorage){
         stored+=addedStorage;
@@ -92,10 +99,30 @@ public class SpriteContainer extends Sprite {
         refreshBorder();
         return 0;
     }
+    public void addCapacity(long addedCapacity){
+        if (capacity!=-1){
+            capacity+=addedCapacity;
+            capacity2+=addedCapacity;
+        }
+        refreshBorder();
+    }
     public void removeStored(long removedStorage){
         stored-=removedStorage;
         if(stored<0){
             stored=0;
+        }
+        refreshBorder();
+    }
+    public long getStored2() {
+        return stored2;
+    }
+    public void setStored2(long stored2) {
+        this.stored2=stored2;
+    }
+    public void removeStored2(long removedStorage2){
+        stored2-=removedStorage2;
+        if(stored2<0){
+            stored2=0;
         }
         refreshBorder();
     }
