@@ -33,9 +33,9 @@ public class VanThread implements Runnable {
                     left=true;
 
 
-                    int sleep= new Random().nextInt(79);
-                    sleep+=40;
-                    sleep+=1000;
+                    int sleep= new Random().nextInt(20);
+                    sleep+=30;
+                    sleep*=1000;
 
                     try{sleep(sleep/2);}catch (InterruptedException e){}
                     GameFrameController.getCookermanagerthread().sellMeth(van.getStored());
