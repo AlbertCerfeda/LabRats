@@ -34,7 +34,7 @@ public class VanThread implements Runnable {
 
 
                     int sleep= new Random().nextInt(20);
-                    sleep+=30;
+                    sleep+=10;
                     sleep*=1000;
 
                     try{sleep(sleep/2);}catch (InterruptedException e){}
