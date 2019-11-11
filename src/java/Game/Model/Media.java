@@ -4,6 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Media{
+    private String address_sfx_fridge=".\\src\\media\\wav\\fridge.wav";
+    private String address_sfx_cashRegister=".\\src\\media\\wav\\cashRegister.wav";
+    private String address_sfx_cooking=".\\src\\media\\wav\\cooking.wav";
+    private String address_sfx_money=".\\src\\media\\wav\\money.wav";
+    private String address_sfx_shop=".\\src\\media\\wav\\shop.wav";
+
+
     private Image[] table;
     private Image[] muCooker;
     private Image[] muCookerHighlighted;
@@ -655,6 +662,21 @@ public class Media{
     }
     public Image[] getCsTankHighlighted() {
         return csTankHighlighted;
+    }
+    public String getAddress_sfx_fridge() {
+        return address_sfx_fridge;
+    }
+    public String getAddress_sfx_cashRegister(){
+        return address_sfx_cashRegister;
+    }
+    public String getAddress_sfx_cooking() {
+        return address_sfx_cooking;
+    }
+    public String getAddress_sfx_money() {
+        return address_sfx_money;
+    }
+    public String getAddress_sfx_shop() {
+        return address_sfx_shop;
     }
 }
 

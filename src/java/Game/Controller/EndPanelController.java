@@ -152,8 +152,6 @@ public class EndPanelController extends MouseAdapter implements Runnable{
 
         a=new Thread(this);
         a.setName("EndgameThread");
-
-
     }
     public void startEndgameSequence(){
         GameFrame.setEndgameVisible();

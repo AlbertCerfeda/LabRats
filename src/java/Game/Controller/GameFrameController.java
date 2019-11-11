@@ -21,7 +21,7 @@ public class GameFrameController {
     public static ArrayList<JLabel> regularSprites;
 
     private JLabel nameLabel;
-    private String name="Albert";
+    private String name;
 
     //STATS//
     private static int secsForNextIngredient=30;
